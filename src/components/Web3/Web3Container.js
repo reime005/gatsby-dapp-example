@@ -6,58 +6,63 @@ import Inner from './Inner';
 import { drizzleOptions } from '../../state/drizzleOptions';
 
 class Web3Container extends React.Component {
-  constructor(props, context) {
+  constructor(props) {
     super(props);
 
+    const drizzle = new Drizzle(drizzleOptions, props.store);
     this.state = {
+      nameKey: undefined,
       contractName: "-",
-      drizzle: new Drizzle(drizzleOptions, props.store)
+      drizzle
     }
+  }
 
-    console.log(context);
-    
-    // const 
-    // this.drizzle = drizzle;
-    // console.log(drizzle);
-    // console.log(props);
-    
+  retrieveFromState(state, methodName, key) {
+    if (state.contracts
+      .NameStorageExample
+      [methodName]
+      [key]) {
+        return state.contracts
+        .NameStorageExample
+        [methodName]
+        [key]
+        .value
+      }
+    return "+";
+  }
+
+  async addSubscription(key) {
+    await this.state.drizzle.store.subscribe(() => {
+      const state = this.state.drizzle.store.getState();
+
+      let contractName = this.retrieveFromState(state, "getName", key);
+      console.log(contractName);
+      
+      this.setState({contractName: contractName, accounts: state.accounts})
+    });
   }
 
   async componentWillReceiveProps(props) {
     // console.log(props);
     
     const {
-      drizzle
+      drizzle,
+      nameKey
     } = this.state;
     
     var state = drizzle.store.getState();
-    console.log(state);
     
 
-    if (state.drizzleStatus.initialized) {
-      let key = await drizzle.contracts
+    if (!nameKey && state.drizzleStatus.initialized) {
+      let nameKey = await drizzle.contracts
       .NameStorageExample
       .methods
       .getName
       .cacheCall();
 
-      let contractName = "";
-      if (state.contracts
-        .NameStorageExample
-        .getName
-        [key]) {
-          contractName = state.contracts
-          .NameStorageExample
-          .getName
-          [key]
-          .value;
-        }
-      // // 
-      // console.log(contractName);
-      // console.log(state.transactionStack);
-      
+      this.setState({nameKey, accounts: state.accounts});
 
-      this.setState({contractName: contractName})
+      this.addSubscription(nameKey);
     }
   }
 
@@ -66,8 +71,7 @@ class Web3Container extends React.Component {
     .NameStorageExample
     .methods
     .changeName
-    .cacheSend("testName2", {from: "0xE69cc925Ffb8a07Ba7f5ABB6D5117B1fc8B95ca2"})
-    this.setState({tx: foo})
+    .cacheSend("testName312", {from: this.state.accounts[0]})
   }
 
   render() {

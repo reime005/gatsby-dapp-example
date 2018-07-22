@@ -13,7 +13,7 @@ contract NameStorageExample is Ownable {
 
     function changeName(
         string newName
-    ) {
+    ) public onlyOwner {
         emit NameChangedEvent(name, newName);
         name = newName;
     }
