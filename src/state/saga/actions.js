@@ -5,13 +5,14 @@ export function initSagaAction(store) {
     type: types.INIT,
     store
   }
-} 
+}
 
-export function getNameSagaAction() {
+export function getCallSagaAction(methodName) {
   return {
-    type: types.CALL_GET_NAME 
+    type: types.GET_CALL,
+    methodName 
   }
-} 
+}
 
 export function changeNameSagaAction(name) {
   return {

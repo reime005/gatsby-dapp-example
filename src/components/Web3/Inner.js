@@ -2,7 +2,8 @@ import React from 'react';
 
 const Inner = (props) => (
   <div>
-    {`Contract name: ${props.contractName}`}
+    <p>{`Contract name: ${props.contractName}`}</p>
+    <p>{`Contract numbers: ${props.numbers}`}</p>
   </div>
 )
 

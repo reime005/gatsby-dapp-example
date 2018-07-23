@@ -5,7 +5,8 @@ export const contracts = {
       changeName: "changeName"
     },
     callMethods: {
-      getName: "name"
+      name: "getName",
+      numbers: "getNumbers"
     },
     events: {
       NameChangedEvent: "NameChangedEvent"

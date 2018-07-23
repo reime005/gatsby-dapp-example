@@ -18,9 +18,11 @@ class Web3Wrapper extends React.Component {
 
   async componentWillReceiveProps(props) {
     console.log("props");
+    console.log(props);
     
     if (props.initialized) {
       props.getName();
+      props.getNumbers();
     }
   }
 
@@ -32,9 +34,9 @@ class Web3Wrapper extends React.Component {
     const {
       initialized,
       accounts,
+      numbers,
       name
     } = this.props;
-
 
     return(
       <div>
@@ -44,7 +46,7 @@ class Web3Wrapper extends React.Component {
         {
           initialized ? 
           <div>
-            <Inner contractName={name}/>
+            <Inner contractName={name} numbers={numbers}/>
           </div>
           :
           <div>

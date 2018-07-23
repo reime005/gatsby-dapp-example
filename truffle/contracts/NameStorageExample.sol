@@ -3,13 +3,14 @@ pragma solidity ^0.4.23;
 import "zeppelin-solidity/contracts/ownership/Ownable.sol";
 
 contract NameStorageExample is Ownable {
-    string public name = "ExampleStorage";
-    int[2] public array = [24, 42];
+    string public name;
+    uint32[2] public numbers;
 
     event NameChangedEvent(string previousName, string newName);
 
     constructor() public {
-        name = "ExampleStorage";
+        name = "NameStorageExample";
+        numbers = [24, 42];
     }
 
     function changeName(
@@ -22,5 +23,10 @@ contract NameStorageExample is Ownable {
     function getName() external view
         returns(string) {
         return name;
+    }
+
+    function getNumbers() external view
+        returns(uint32[2]) {
+        return numbers;
     }
 }

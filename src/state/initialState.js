@@ -3,7 +3,8 @@ import {
 } from './contracts';
 
 export default {
-  [contracts.NameStorageExample.callMethods.getName]: "",
+  [contracts.NameStorageExample.callMethods.name]: "",
+  [contracts.NameStorageExample.callMethods.numbers]: [],
   txError: undefined,
   drizzle: undefined,
 }

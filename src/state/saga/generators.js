@@ -39,24 +39,26 @@ export function* changeNameGenerator(action) {
   yield call(txWrapper, contractName, methodName, name);
 }
 
-export function* getNameGenerator(action) {
-  const contractName = contracts.NameStorageExample.contractName;
-  const methodName = contracts.NameStorageExample.callMethods.getName;
+export function* getCallGenerator(action) {
+  const {
+    methodName
+  } = action;
 
-  const state = yield select((state) => state);
+  const contractName = contracts.NameStorageExample.contractName;
+
   const drizzleContracts = yield select(selectors.getContracts);
   
   if (!drizzleContracts) {
     return;
   }
 
-  const nameKey = yield call(drizzleContracts
+  const arrayKey = yield call(drizzleContracts
     [contractName]
     .methods
     [methodName]
     .cacheCall)
 
-  yield call(subscribeGenerator, {contractName, methodName, key: nameKey});
+  yield call(subscribeGenerator, {contractName, methodName, key: arrayKey});
 }
 
 function retrieveFromState(state, contractName, methodName, key) {
@@ -74,7 +76,7 @@ function retrieveFromState(state, contractName, methodName, key) {
 }
 
 export function* subscribeGenerator(action) {
-  const {
+  let {
     contractName,
     methodName,
     key
@@ -100,9 +102,10 @@ export function* subscribeGenerator(action) {
       state, contractName, methodName, key);
 
     if (newValue !== existingValue) {
+      console.log(methodName.substring(3).toLowerCase());
       console.log(newValue);
     
-      yield put(setSubscriptionValueAction(methodName, newValue));
+      yield put(setSubscriptionValueAction(methodName.substring(3).toLowerCase(), newValue));
     }
   }
 }
