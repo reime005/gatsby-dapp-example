@@ -4,6 +4,7 @@ import "zeppelin-solidity/contracts/ownership/Ownable.sol";
 
 contract NameStorageExample is Ownable {
     string public name = "ExampleStorage";
+    int[2] public array = [24, 42];
 
     event NameChangedEvent(string previousName, string newName);
 

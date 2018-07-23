@@ -4,15 +4,17 @@ import { connect } from 'react-redux';
 const Inner = (props) => (
   <div>
 
-    {JSON.stringify(props)}
+    {JSON.stringify(props.accounts)}
   </div>
 )
 
-const mapStateToProps = state => (
-  {
-    ...state
+const mapStateToProps = (state) => {
+  console.log(state);
+  
+  return {
+
   }
-)
+}
 
 const mapDispatchToProps = dispatch => (
   {
