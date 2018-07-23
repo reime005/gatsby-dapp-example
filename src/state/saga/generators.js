@@ -5,6 +5,7 @@ import { drizzleOptions } from "../drizzleOptions";
 import { setDrizzleAction } from '../reducer/actions';
 import { contracts } from '../contracts';
 import { txWrapper } from './txWrapper';
+import * as selectors from './selectors';
 
 export function* initGenerator(action) {
   const {

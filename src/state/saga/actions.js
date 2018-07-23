@@ -15,7 +15,7 @@ export function getNameSagaAction() {
 
 export function changeNameSagaAction(name) {
   return {
-    type: types.CALL_GET_NAME,
+    type: types.TX_CHANGE_NAME,
     name
   }
 }

@@ -1,18 +1,10 @@
 import React from 'react';
-import { drizzleConnect } from 'drizzle-react';
-import { connect } from 'react-redux';
-import { Drizzle } from 'drizzle'
 import Inner from './Inner';
-import { drizzleOptions } from '../../state/drizzleOptions';
 
 class Web3Wrapper extends React.Component {
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      nameKey: undefined,
-      contractName: "-",
-    }
+  state = {
+    nameKey: undefined,
+    contractName: "-",
   }
 
   componentDidMount() {
@@ -20,8 +12,8 @@ class Web3Wrapper extends React.Component {
       init,
       store
     } = this.props;
-
-    console.log(this.props);
+    
+    console.log(store);
     
     init(store);
   }
@@ -76,7 +68,8 @@ class Web3Wrapper extends React.Component {
     // }
   }
 
-  async send() {
+  send() {
+    this.props.changeName("test");
     // let foo = await this.state.drizzle.contracts
     // .NameStorageExample
     // .methods
@@ -87,25 +80,19 @@ class Web3Wrapper extends React.Component {
   render() {
     const {
       initialized,
-      accounts
+      accounts,
+      contractName,
     } = this.props;
-
-    const {
-      contractName
-    } = this.state;
 
     return(
       <div>
-        {contractName}
-        <button onClick={this.send.bind(this)}>CHANGE NAME</button>
-        {/* {this.state.tx} */}
-        <br/>
-        <br/>
+        <p>{accounts[0] && `Account: ${accounts[0]}`}</p>
+        <button onMouseDown={this.send.bind(this)}>CHANGE NAME</button>
         <br/>
         {
           initialized ? 
           <div>
-            <Inner accounts={accounts}/>
+            <Inner contractName={contractName}/>
           </div>
           :
           <div>
@@ -118,5 +105,4 @@ class Web3Wrapper extends React.Component {
   }
 }
 
-export default Web3Wrapper;//connect(mapStateToProps, mapDispatchToProps)(Web3Container);
-// export default drizzleConnect(Web3Container, mapStateToProps, mapDispatchToProps);
+export default Web3Wrapper;

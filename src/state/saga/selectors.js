@@ -1,0 +1,1 @@
+export const getContracts = (state) => state.reducer.drizzle.contracts;

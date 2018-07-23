@@ -4,14 +4,19 @@ import * as selectors from './selectors';
 export function* txWrapper(contractName = "NameStorageExample",
 contractMethod = "",
 ...args) {
-  const contract = yield select(selectors.getContract(contractName));
+  const contracts = yield select(selectors.getContracts);
+  
+  // console.log("contracts");
+  // console.log(contracts);
+  // console.log(contracts[contractName].methods[contractMethod]);
+  // return;
 
-  if (!contract) {
+  if (!contracts) {
     return;
   }
 
   try {
-    contract.methods[contractMethod].cacheSend(...args);
+    contracts[contractName].methods[contractMethod].cacheSend(...args);
   } catch (e) {
     console.error(`Error in contract ${contractName} for method 
     ${contractMethod}: ${e.message}`);
