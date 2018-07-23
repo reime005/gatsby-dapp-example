@@ -13,76 +13,28 @@ class Web3Wrapper extends React.Component {
       store
     } = this.props;
     
-    console.log(store);
-    
     init(store);
   }
 
-  retrieveFromState(state, methodName, key) {
-    // if (state.contracts
-    //   .NameStorageExample
-    //   [methodName]
-    //   [key]) {
-    //     return state.contracts
-    //     .NameStorageExample
-    //     [methodName]
-    //     [key]
-    //     .value
-    //   }
-    return "+";
-  }
-
-  // async addSubscription(key) {
-  //   await this.state.drizzle.store.subscribe(() => {
-  //     const state = this.state.drizzle.store.getState();
-
-  //     let contractName = this.retrieveFromState(state, "getName", key);
-  //     console.log(contractName);
-      
-  //     this.setState({contractName: contractName, accounts: state.accounts})
-  //   });
-  // }
-
   async componentWillReceiveProps(props) {
     console.log("props");
-    console.log(props);
     
-    // const {
-    //   drizzle,
-    //   nameKey
-    // } = this.state;
-    
-    // var state = drizzle.store.getState();
-    
-
-    // if (!nameKey && state.drizzleStatus.initialized) {
-    //   let nameKey = await drizzle.contracts
-    //   .NameStorageExample
-    //   .methods
-    //   .getName
-    //   .cacheCall();
-
-    //   this.setState({nameKey, accounts: state.accounts});
-
-    //   this.addSubscription(nameKey);
-    // }
+    if (props.initialized) {
+      props.getName();
+    }
   }
 
   send() {
-    this.props.changeName("test");
-    // let foo = await this.state.drizzle.contracts
-    // .NameStorageExample
-    // .methods
-    // .changeName
-    // .cacheSend("testName312", {from: this.state.accounts[0]})
+    this.props.changeName("test23");
   }
 
   render() {
     const {
       initialized,
       accounts,
-      contractName,
+      name
     } = this.props;
+
 
     return(
       <div>
@@ -92,7 +44,7 @@ class Web3Wrapper extends React.Component {
         {
           initialized ? 
           <div>
-            <Inner contractName={contractName}/>
+            <Inner contractName={name}/>
           </div>
           :
           <div>

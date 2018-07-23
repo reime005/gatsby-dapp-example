@@ -6,3 +6,11 @@ export function setDrizzleAction(drizzle) {
     drizzle
   }
 }
+
+export function setSubscriptionValueAction(key, value) {
+  return {
+    type: types.SET_SUBSCRIPTION_VALUE,
+    key,
+    value
+  }
+}

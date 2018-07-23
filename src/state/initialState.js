@@ -1,5 +1,9 @@
+import {
+  contracts
+} from './contracts';
+
 export default {
-  contractName: "",
+  [contracts.NameStorageExample.callMethods.getName]: "",
   txError: undefined,
   drizzle: undefined,
 }

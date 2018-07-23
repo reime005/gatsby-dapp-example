@@ -1,8 +1,9 @@
 import { Drizzle, generateStore } from 'drizzle'
-import { put, select, call } from "redux-saga/effects";
+import { put, select, call, take, apply } from "redux-saga/effects";
+import { eventChannel, delay } from 'redux-saga';
 
 import { drizzleOptions } from "../drizzleOptions";
-import { setDrizzleAction } from '../reducer/actions';
+import { setDrizzleAction, setSubscriptionValueAction } from '../reducer/actions';
 import { contracts } from '../contracts';
 import { txWrapper } from './txWrapper';
 import * as selectors from './selectors';
@@ -38,10 +39,78 @@ export function* changeNameGenerator(action) {
   yield call(txWrapper, contractName, methodName, name);
 }
 
+export function* getNameGenerator(action) {
+  const contractName = contracts.NameStorageExample.contractName;
+  const methodName = contracts.NameStorageExample.callMethods.getName;
+
+  const state = yield select((state) => state);
+  const drizzleContracts = yield select(selectors.getContracts);
+  
+  if (!drizzleContracts) {
+    return;
+  }
+
+  const nameKey = yield call(drizzleContracts
+    [contractName]
+    .methods
+    [methodName]
+    .cacheCall)
+
+  yield call(subscribeGenerator, {contractName, methodName, key: nameKey});
+}
+
+function retrieveFromState(state, contractName, methodName, key) {
+  if (state.contracts
+    [contractName]
+    [methodName]
+    [key]) {
+      return state.contracts
+        [contractName]
+        [methodName]
+        [key]
+        .value
+    }
+  return undefined;
+}
+
 export function* subscribeGenerator(action) {
   const {
-    name
+    contractName,
+    methodName,
+    key
   } = action;
 
-  //TODO: implement
+  let store = yield select(selectors.getStore);
+
+  if (!store) {
+    return;
+  }
+
+  const channel = yield call(createSubscriptionChannel, store);
+
+  while (true) {
+    let state = yield call(store.getState);
+
+    const existingValue = yield call(retrieveFromState,
+      state, contractName, methodName, key);
+
+    state = yield take(channel);
+
+    const newValue = yield call(retrieveFromState,
+      state, contractName, methodName, key);
+
+    if (newValue !== existingValue) {
+      console.log(newValue);
+    
+      yield put(setSubscriptionValueAction(methodName, newValue));
+    }
+  }
+}
+
+function createSubscriptionChannel(store) {
+  return eventChannel(emit => {
+    return store.subscribe(() => {
+      emit(store.getState());
+    })
+  })
 }

@@ -10,6 +10,13 @@ export default (state, action) => {
         ...nextState,
         drizzle: action.drizzle
       }
+      break;
+    case types.SET_SUBSCRIPTION_VALUE:
+      nextState = {
+        ...nextState,
+        [action.key]: action.value
+      }
+      break;
     default:
   }
 

@@ -5,5 +5,6 @@ import * as generators from './generators';
 export default function* sagas() {
   yield takeEvery(types.INIT, generators.initGenerator);
   yield takeEvery(types.TX_CHANGE_NAME, generators.changeNameGenerator);
+  yield takeEvery(types.CALL_GET_NAME, generators.getNameGenerator);
   yield takeEvery(types.SUBSCRIBE, generators.subscribeGenerator);
 }
