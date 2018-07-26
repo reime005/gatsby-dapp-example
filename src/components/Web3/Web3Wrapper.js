@@ -1,33 +1,35 @@
 import React from 'react';
-import Inner from './Inner';
+import { SimpleForm } from '~/components';
 
-class Web3Wrapper extends React.Component {
+export class Web3Wrapper extends React.Component {
   state = {
     nameKey: undefined,
     contractName: "-",
   }
 
+  constructor(props) {
+    super(props);
+  }
+
   componentDidMount() {
     const {
       init,
-      store
+      initialized,
+      store,
+      getName,
+      getNumbers
     } = this.props;
     
-    init(store);
+    init && init(store);
+    // initialized && getName && getName();
+    // initialized && getNumbers && getNumbers();
   }
 
   async componentWillReceiveProps(props) {
-    console.log("props");
-    console.log(props);
-    
-    if (props.initialized) {
+    if (props.initialized !== this.props.initialized) {
       props.getName();
       props.getNumbers();
     }
-  }
-
-  send() {
-    this.props.changeName("test23");
   }
 
   render() {
@@ -35,18 +37,18 @@ class Web3Wrapper extends React.Component {
       initialized,
       accounts,
       numbers,
+      changeName,
       name
     } = this.props;
 
     return(
       <div>
         <p>{accounts[0] && `Account: ${accounts[0]}`}</p>
-        <button onMouseDown={this.send.bind(this)}>CHANGE NAME</button>
         <br/>
         {
           initialized ? 
           <div>
-            <Inner contractName={name} numbers={numbers}/>
+            <SimpleForm contractName={name} numbers={numbers} changeName={changeName}/>
           </div>
           :
           <div>
@@ -54,9 +56,6 @@ class Web3Wrapper extends React.Component {
           </div>
         }
       </div>
-      
     )
   }
 }
-
-export default Web3Wrapper;

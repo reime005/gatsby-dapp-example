@@ -1,10 +1,10 @@
-import { Drizzle, generateStore } from 'drizzle'
-import { put, select, call, take, apply } from "redux-saga/effects";
-import { eventChannel, delay } from 'redux-saga';
+import { Drizzle } from 'drizzle'
+import { put, select, call, take } from "redux-saga/effects";
+import { eventChannel } from 'redux-saga';
 
-import { drizzleOptions } from "../drizzleOptions";
-import { setDrizzleAction, setSubscriptionValueAction } from '../reducer/actions';
-import { contracts } from '../contracts';
+import { drizzleOptions } from "~/constants";
+import { setDrizzleAction, setSubscriptionValueAction } from '~/reducers';
+import { contracts } from '~/constants';
 import { txWrapper } from './txWrapper';
 import * as selectors from './selectors';
 
@@ -15,7 +15,6 @@ export function* initGenerator(action) {
 
   if (!store) {
     console.log("no store");
-    
     return;
   }
 
@@ -45,6 +44,8 @@ export function* getCallGenerator(action) {
   } = action;
 
   const contractName = contracts.NameStorageExample.contractName;
+
+  const state = yield select((state) => state);
 
   const drizzleContracts = yield select(selectors.getContracts);
   
@@ -102,9 +103,6 @@ export function* subscribeGenerator(action) {
       state, contractName, methodName, key);
 
     if (newValue !== existingValue) {
-      console.log(methodName.substring(3).toLowerCase());
-      console.log(newValue);
-    
       yield put(setSubscriptionValueAction(methodName.substring(3).toLowerCase(), newValue));
     }
   }

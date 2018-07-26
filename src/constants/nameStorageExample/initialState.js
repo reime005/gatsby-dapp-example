@@ -1,8 +1,8 @@
 import {
   contracts
-} from './contracts';
+} from '~/constants';
 
-export default {
+export const initialState = {
   [contracts.NameStorageExample.callMethods.name]: "",
   [contracts.NameStorageExample.callMethods.numbers]: [],
   txError: undefined,

@@ -1,17 +1,20 @@
-import * as types from './actionTypes';
-import initialState from '../initialState';
+import {
+  SET_DRIZZLE,
+  SET_SUBSCRIPTION_VALUE,
+} from './actionTypes';
+import { initialState } from '~/constants/nameStorageExample';
 
-export default (state, action) => {
+export const nameStorageExampleReducer = (state = initialState, action) => {
   let nextState = state || initialState;
 
   switch (action.type) {
-    case types.SET_DRIZZLE:
+    case SET_DRIZZLE:
       nextState = {
         ...nextState,
         drizzle: action.drizzle
       }
       break;
-    case types.SET_SUBSCRIPTION_VALUE:
+    case SET_SUBSCRIPTION_VALUE:
       nextState = {
         ...nextState,
         [action.key]: action.value

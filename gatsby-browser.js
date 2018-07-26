@@ -6,12 +6,11 @@ import { Router } from 'react-router-dom';
 import { Provider } from 'react-redux';
 import { Drizzle, generateStore } from 'drizzle';
 import { DrizzleProvider } from 'drizzle-react';
-import createStore from './src/state/createStore';
-import { drizzleOptions } from './src/state/drizzleOptions';
-import { setDrizzleAction } from './src/state/reducer/actions';
+import { initStore } from '~/state';
+import { drizzleOptions } from '~/constants';
 
 exports.replaceRouterComponent = ({ history }) => {
-  const store = createStore();
+  const store = initStore();
   const drizzleStore = generateStore(drizzleOptions);
   const drizzle = new Drizzle(drizzleOptions, drizzleStore);
   console.log(store);
