@@ -21,11 +21,6 @@ exports.modifyWebpackConfig = ({ config, stage }) => {
         '~': path.resolve(__dirname, 'src'),
       },
     },
-    // plugins: [
-    //   plugins.define({
-    //     __DEVELOPMENT__: stage === 'develop' || stage === 'develop-html',
-    //   }),
-    // ],
   });
 
   return config;

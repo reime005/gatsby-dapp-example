@@ -14,7 +14,6 @@ export function* initGenerator(action) {
   } = action;
 
   if (!store) {
-    console.log("no store");
     return;
   }
 
@@ -45,11 +44,13 @@ export function* getCallGenerator(action) {
 
   const contractName = contracts.NameStorageExample.contractName;
 
-  const state = yield select((state) => state);
-
   const drizzleContracts = yield select(selectors.getContracts);
-  
+
   if (!drizzleContracts) {
+    return;
+  }
+
+  if (!drizzleContracts[contractName]) {
     return;
   }
 
@@ -103,7 +104,12 @@ export function* subscribeGenerator(action) {
       state, contractName, methodName, key);
 
     if (newValue !== existingValue) {
-      yield put(setSubscriptionValueAction(methodName.substring(3).toLowerCase(), newValue));
+      yield put(
+        setSubscriptionValueAction(
+          methodName.substring(3).toLowerCase(), 
+          newValue
+        )
+      );
     }
   }
 }

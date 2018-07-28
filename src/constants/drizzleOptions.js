@@ -4,4 +4,11 @@ export const drizzleOptions = {
   contracts: [
     NameStorageExample
   ],
+  events: {
+    "NameStorageExample": [
+      {
+        eventName: "NameChangedEvent",
+      }
+    ]
+  }
 }

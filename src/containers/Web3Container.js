@@ -12,7 +12,7 @@ const name = contracts.NameStorageExample.callMethods.name.substring(3).toLowerC
 const numbers = contracts.NameStorageExample.callMethods.numbers.substring(3).toLowerCase();
 
 export default connect((state) => ({
-  reducer: state.nameStorageExampleReducer,
+  drizzle: state.nameStorageExampleReducer.drizzle,
   name: state.nameStorageExampleReducer[name],
   numbers: state.nameStorageExampleReducer[numbers],
   store: state.store,

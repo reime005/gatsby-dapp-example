@@ -3,12 +3,15 @@ export * from './contracts';
 import {
   nameStorageSaga
 } from './contracts';
-import { fork } from 'redux-saga/effects';
+import { fork, all } from 'redux-saga/effects';
+import { drizzleSagas } from 'drizzle';
 
 function startSagas(...sagas) {
   return function* rootSaga() {
-    yield sagas.map(saga => fork(saga))
+    yield all(
+      sagas.map(saga => fork(saga))
+    )
   }
 }
 
-export const rootSaga = startSagas(nameStorageSaga);
+export const rootSaga = startSagas(nameStorageSaga, drizzleSagas);

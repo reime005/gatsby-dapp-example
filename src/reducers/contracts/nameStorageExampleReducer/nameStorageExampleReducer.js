@@ -6,7 +6,7 @@ import { initialState } from '~/constants/nameStorageExample';
 
 export const nameStorageExampleReducer = (state = initialState, action) => {
   let nextState = state || initialState;
-
+  
   switch (action.type) {
     case SET_DRIZZLE:
       nextState = {

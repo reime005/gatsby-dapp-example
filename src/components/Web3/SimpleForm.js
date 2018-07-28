@@ -1,20 +1,44 @@
 import React from 'react';
 
-const handleSubmit = (event, changeName) => {
-  const data = new FormData(event.target);
-  changeName(data.get('name'));
+export class SimpleForm extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = { 
+      name: '',
+    };
+
+    this.handleChange = this.handleChange.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
+  }
+
+  handleSubmit(event) {
+    this.props.changeName(this.state.name);
+    event.preventDefault();
+  }
+
+  handleChange(event) {
+    this.setState({name: event.target.value});
+  }
+
+  render() {
+    const {
+      contractName,
+      numbers,
+    } = this.props;
+
+    return(
+      <div>
+        <p>{`Contract name: ${contractName}`}</p>
+        <p>{`Contract numbers: ${numbers}`}</p>
+
+        <form onSubmit={this.handleSubmit}>
+          <label>
+            Name: <br/>
+            <input type="text" value={this.state.name} onChange={this.handleChange} />
+          </label>
+          <input type="submit" value="Submit" />
+        </form>
+      </div>
+    )
+  }
 }
-
-export const SimpleForm = (props) => (
-  <div>
-    <p>{`Contract name: ${props.contractName}`}</p>
-    <p>{`Contract numbers: ${props.numbers}`}</p>
-
-    <form onSubmit={(event) => handleSubmit(event, props.changeName)}>
-        <label htmlFor="name">Enter name</label>
-        <br/>
-        <input id="name" name="name" type="text" />
-      <button>CHANGE NAME</button>
-    </form>
-  </div>
-)

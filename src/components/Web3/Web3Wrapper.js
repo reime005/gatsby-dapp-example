@@ -7,28 +7,21 @@ export class Web3Wrapper extends React.Component {
     contractName: "-",
   }
 
-  constructor(props) {
-    super(props);
+  startSubscribeCalls(functions) {
+    if (!Array.isArray(functions)) {
+      return;
+    }
+
+    functions.forEach(fun => {
+      typeof fun === 'function' && fun();
+    })
   }
 
-  componentDidMount() {
-    const {
-      init,
-      initialized,
-      store,
-      getName,
-      getNumbers
-    } = this.props;
-    
-    init && init(store);
-    // initialized && getName && getName();
-    // initialized && getNumbers && getNumbers();
-  }
-
-  async componentWillReceiveProps(props) {
-    if (props.initialized !== this.props.initialized) {
-      props.getName();
-      props.getNumbers();
+  componentWillReceiveProps(props) {
+    // if drizzle has been initialized
+    if (props.initialized === true &&
+      props.initialized !== this.props.initialized) {
+      this.startSubscribeCalls([props.getName, props.getNumbers]);
     }
   }
 
@@ -36,23 +29,34 @@ export class Web3Wrapper extends React.Component {
     const {
       initialized,
       accounts,
+      accountBalances,
       numbers,
       changeName,
       name
     } = this.props;
 
+    const account = accounts[0];
+    const balance = accountBalances[account];
+
     return(
-      <div>
-        <p>{accounts[0] && `Account: ${accounts[0]}`}</p>
+      <div style={{ backgroundColor: '#3164a8', padding: 50, color: 'white'}}>
+        <p>{account && `Account: ${account}`}</p>
+        <p>{balance && `Balance: ${balance / 1e18} ETH`}</p>
         <br/>
         {
           initialized ? 
           <div>
-            <SimpleForm contractName={name} numbers={numbers} changeName={changeName}/>
+            <SimpleForm 
+              contractName={name} 
+              numbers={numbers} 
+              changeName={changeName}
+            />
           </div>
           :
           <div>
-            loading...
+            <p>
+              loading...
+            </p>
           </div>
         }
       </div>
