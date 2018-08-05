@@ -40,25 +40,34 @@ export class Web3Wrapper extends React.Component {
 
     return(
       <div style={{ backgroundColor: '#3164a8', padding: 50, color: 'white'}}>
-        <p>{account && `Account: ${account}`}</p>
-        <p>{balance && `Balance: ${balance / 1e18} ETH`}</p>
-        <br/>
-        {
-          initialized ? 
-          <div>
-            <SimpleForm 
-              contractName={name} 
-              numbers={numbers} 
-              changeName={changeName}
-            />
-          </div>
-          :
-          <div>
-            <p>
-              loading...
-            </p>
-          </div>
-        }
+      {
+        account && balance ?
+        <div>
+          <p>{account && `Account: ${account}`}</p>
+          <p>{balance && `Balance: ${balance / 1e18} ETH`}</p>
+          <br/>
+        </div>
+        :
+        <p>
+          no account information. please unlock your wallet and refresh this page
+        </p>
+      }
+      {
+        initialized ? 
+        <div>
+          <SimpleForm 
+            contractName={name} 
+            numbers={numbers} 
+            changeName={changeName}
+          />
+        </div>
+        :
+        <div>
+          <p>
+            no contract information
+          </p>
+        </div>
+      }
       </div>
     )
   }
