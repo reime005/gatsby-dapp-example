@@ -1,5 +1,6 @@
 import React from 'react';
 import { SimpleForm } from '~/components';
+import { contracts } from '~/constants';
 
 export class Web3Wrapper extends React.Component {
   state = {
@@ -22,6 +23,23 @@ export class Web3Wrapper extends React.Component {
     if (props.initialized === true &&
       props.initialized !== this.props.initialized) {
       this.startSubscribeCalls([props.getName, props.getNumbers]);
+
+      //
+      props.drizzle.contracts[contracts.NameStorageExample.contractName]
+      .events
+      [contracts.NameStorageExample.events.NameChangedEvent]
+      ({}, (error, event) => {
+        console.log(error, event);
+      })
+      .on('data', (event) => {
+        console.log(event);
+      })
+      .on('changed', (event) => {
+        console.log(event);
+      })
+      .on('error', (error) => {
+        console.log(error);
+      });
     }
   }
 

@@ -25,6 +25,7 @@ export default connect((state) => ({
 }))(drizzleConnect(
   Web3Wrapper,
   (state) => ({
+    web: state.web3,
     accounts: state.accounts,
     accountBalances: state.accountBalances,
     initialized: state.drizzleStatus.initialized
