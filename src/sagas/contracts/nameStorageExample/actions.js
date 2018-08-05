@@ -21,6 +21,13 @@ export function changeNameSagaAction(name) {
   }
 }
 
+export function changeFooSagaAction(foo) {
+  return {
+    type: types.TX_CHANGE_FOO,
+    foo
+  }
+}
+
 export function subscribeSagaAction() {
   return {
     type: types.SUBSCRIBE,

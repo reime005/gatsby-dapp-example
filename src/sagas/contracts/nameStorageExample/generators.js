@@ -37,6 +37,17 @@ export function* changeNameGenerator(action) {
   yield call(txWrapper, contractName, methodName, name);
 }
 
+export function* changeFooGenerator(action) {
+  const {
+    foo
+  } = action;
+
+  const contractName = contracts.NameStorageExample.contractName;
+  const methodName = contracts.NameStorageExample.txMethods.changeFoo;
+
+  yield call(txWrapper, contractName, methodName, foo);
+}
+
 export function* getCallGenerator(action) {
   const {
     methodName
