@@ -24,7 +24,7 @@ export default connect((state) => ({
 (dispatch) => ({
   getContractName: () => dispatch(getCallSagaAction(contracts.NameStorageExample.callMethods.contractName)),
   getAddressName: () => dispatch(getCallSagaAction(contracts.NameStorageExample.callMethods.addressName)),
-  getIndexName: (args) => dispatch(getCallSagaAction(contracts.NameStorageExample.callMethods.indexName, args)),
+  getIndexName: (index) => dispatch(getCallSagaAction(contracts.NameStorageExample.callMethods.indexName, index)),
   
   changeAddressName: (name) => dispatch(changeAddressNameSagaAction(name)),
   addIndexName: (name) => dispatch(addIndexNameSagaAction(name)),

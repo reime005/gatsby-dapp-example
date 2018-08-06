@@ -6,9 +6,9 @@ export const drizzleOptions = {
   ],
   events: {
     "NameStorageExample": [
-      
-        "NameChangedEvent",
-      
+      "ContractNameChanged",
+      "IndexNameAdded",
+      "AddressNameChanged",
     ]
   }
 }

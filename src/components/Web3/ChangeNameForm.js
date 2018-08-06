@@ -32,7 +32,6 @@ export class ChangeNameForm extends React.Component {
 
         <form onSubmit={this.handleSubmit}>
           <label>
-            {text}<br/>
             <input type="text" value={this.state.name} onChange={this.handleChange} />
           </label>
           <input type="submit" value="Submit" />

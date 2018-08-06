@@ -62,7 +62,7 @@ export function* changeAddressNameGenerator(action) {
 export function* getCallGenerator(action) {
   const {
     methodName,
-    args
+    index
   } = action;
 
   const contractName = contracts.NameStorageExample.contractName;
@@ -78,13 +78,13 @@ export function* getCallGenerator(action) {
 
   let arrayKey = undefined;
   
-  if (args) {
+  if (index) {
     arrayKey = yield call(drizzleContracts
     [contractName]
     .methods
     [methodName]
-    (...args)
-    .cacheCall)
+    .cacheCall,
+    index)
   } else {
     arrayKey = yield call(drizzleContracts
     [contractName]
@@ -93,7 +93,7 @@ export function* getCallGenerator(action) {
     .cacheCall)
   }
 
-  yield call(subscribeGenerator, {contractName, methodName, key: arrayKey});
+  yield call(subscribeGenerator, {contractName, methodName, key: arrayKey, index});
 }
 
 function retrieveFromState(state, contractName, methodName, key) {
@@ -114,7 +114,8 @@ export function* subscribeGenerator(action) {
   let {
     contractName,
     methodName,
-    key
+    key,
+    index
   } = action;
 
   let store = yield select(selectors.getStore);
@@ -137,9 +138,10 @@ export function* subscribeGenerator(action) {
       state, contractName, methodName, key);
 
     if (newValue !== existingValue) {
+      const valKey = methodName.substring(3).toLowerCase();
       yield put(
         setSubscriptionValueAction(
-          methodName.substring(3).toLowerCase(), 
+          valKey, 
           newValue
         )
       );

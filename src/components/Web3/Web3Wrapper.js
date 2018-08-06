@@ -5,6 +5,7 @@ export class Web3Wrapper extends React.Component {
   state = {
     nameKey: undefined,
     contractName: "-",
+    watchIndex: 8,
   }
 
   startSubscribeCalls(functions) {
@@ -23,7 +24,7 @@ export class Web3Wrapper extends React.Component {
         [
           this.props.getContractName, 
           this.props.getAddressName,
-          this.props.getIndexName(1),
+          this.props.getIndexName(this.state.watchIndex)
         ]);
     }
   }
@@ -36,7 +37,7 @@ export class Web3Wrapper extends React.Component {
         [
           props.getContractName, 
           props.getAddressName,
-          props.getIndexName(1),
+          props.getIndexName(this.state.watchIndex),
         ]);
     }
   }
