@@ -1,3 +1,2 @@
-export * from './SimpleForm';
-export * from './FooForm';
+export * from './ChangeNameForm';
 export * from './Web3Wrapper';

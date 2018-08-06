@@ -3,45 +3,66 @@ pragma solidity ^0.4.23;
 import "zeppelin-solidity/contracts/ownership/Ownable.sol";
 
 contract NameStorageExample is Ownable {
-    string public name;
-    string public foo;
-    uint32[2] public numbers;
+    string public contractName;
 
-    event NameChangedEvent(string previousName, string newName);
-    event FooChangedEvent(address changer, string previousFoo, string newFoo);
+    mapping (uint => string) indexNames;
+    uint internal currentIndex;
+
+    mapping (address => string) addressNames;
+
+    event ContractNameChanged(string previousContractName, string newContractName);
+    event IndexNameAdded(address changer, uint index, string name);
+    event AddressNameChanged(address changer, string previousValue, string newValue);
 
     constructor() public {
-        name = "NameStorageExample";
-        numbers = [24, 42];
-        foo = "foo";
+        contractName = "NameStorageExample";
     }
 
-    function changeName(
-        string newName
+    function nextIndex() 
+        internal
+        returns(uint) {
+        currentIndex++;
+        return currentIndex;
+    }
+
+    function changeContractName(
+        string newContractName
     ) public onlyOwner {
-        emit NameChangedEvent(name, newName);
-        name = newName;
+        emit ContractNameChanged(contractName, newContractName);
+        contractName = newContractName;
     }
 
-    function changeFoo(
-        string newFoo
+    function changeAddressName(
+        string newName
     ) public {
-        emit FooChangedEvent(msg.sender, foo, newFoo);
-        foo = newFoo;
+        emit AddressNameChanged(msg.sender, addressNames[msg.sender], newName);
+        addressNames[msg.sender] = newName;
     }
 
-    function getFoo() external view
+    function addIndexName(
+        string name
+    ) public
+        returns(uint) {
+        uint index = nextIndex();
+        emit IndexNameAdded(msg.sender, index, name);
+        indexNames[index] = name;
+        return index;
+    }
+
+    function getIndexName(
+        uint index
+    ) external view 
         returns(string) {
-        return foo;
+        return indexNames[index];
     }
 
-    function getName() external view
+    function getAddressName() external view
         returns(string) {
-        return name;
+        return addressNames[msg.sender];
     }
 
-    function getNumbers() external view
-        returns(uint32[2]) {
-        return numbers;
+    function getContractName() external view
+        returns(string) {
+        return contractName;
     }
 }

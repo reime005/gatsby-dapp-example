@@ -1,6 +1,6 @@
 import React from 'react';
 
-export class SimpleForm extends React.Component {
+export class ChangeNameForm extends React.Component {
   constructor(props) {
     super(props);
     this.state = { 
@@ -12,7 +12,7 @@ export class SimpleForm extends React.Component {
   }
 
   handleSubmit(event) {
-    this.props.changeName(this.state.name);
+    this.props.txMethod(this.state.name);
     event.preventDefault();
   }
 
@@ -22,18 +22,17 @@ export class SimpleForm extends React.Component {
 
   render() {
     const {
-      contractName,
-      numbers,
+      text,
+      name
     } = this.props;
 
     return(
       <div>
-        <p>{`Contract name: ${contractName}`}</p>
-        <p>{`Contract numbers: ${numbers}`}</p>
+        <p>{text + name}</p>
 
         <form onSubmit={this.handleSubmit}>
           <label>
-            Name: <br/>
+            {text}<br/>
             <input type="text" value={this.state.name} onChange={this.handleChange} />
           </label>
           <input type="submit" value="Submit" />

@@ -7,24 +7,32 @@ export function initSagaAction(store) {
   }
 }
 
-export function getCallSagaAction(methodName) {
+export function getCallSagaAction(methodName, args) {
   return {
     type: types.GET_CALL,
-    methodName 
+    methodName,
+    ...args 
   }
 }
 
-export function changeNameSagaAction(name) {
+export function changeAddressNameSagaAction(name) {
   return {
-    type: types.TX_CHANGE_NAME,
+    type: types.TX_CHANGE_ADDRESS_NAME,
     name
   }
 }
 
-export function changeFooSagaAction(foo) {
+export function changeContractNameSagaAction(name) {
   return {
-    type: types.TX_CHANGE_FOO,
-    foo
+    type: types.TX_CHANGE_CONTRACT_NAME,
+    name
+  }
+}
+
+export function addIndexNameSagaAction(name) {
+  return {
+    type: types.TX_ADD_INDEX_NAME,
+    name
   }
 }
 

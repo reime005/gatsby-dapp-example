@@ -26,35 +26,46 @@ export function* initGenerator(action) {
   }
 }
 
-export function* changeNameGenerator(action) {
+export function* changeContractNameGenerator(action) {
   const {
     name
   } = action;
 
   const contractName = contracts.NameStorageExample.contractName;
-  const methodName = contracts.NameStorageExample.txMethods.changeName;
+  const methodName = contracts.NameStorageExample.txMethods.changeContractName;
 
   yield call(txWrapper, contractName, methodName, name);
 }
 
-export function* changeFooGenerator(action) {
+export function* addIndexNameGenerator(action) {
   const {
-    foo
+    name
   } = action;
 
   const contractName = contracts.NameStorageExample.contractName;
-  const methodName = contracts.NameStorageExample.txMethods.changeFoo;
+  const methodName = contracts.NameStorageExample.txMethods.addIndexName;
 
-  yield call(txWrapper, contractName, methodName, foo);
+  yield call(txWrapper, contractName, methodName, name);
+}
+
+export function* changeAddressNameGenerator(action) {
+  const {
+    name
+  } = action;
+
+  const contractName = contracts.NameStorageExample.contractName;
+  const methodName = contracts.NameStorageExample.txMethods.changeAddressName;
+
+  yield call(txWrapper, contractName, methodName, name);
 }
 
 export function* getCallGenerator(action) {
   const {
-    methodName
+    methodName,
+    args
   } = action;
 
   const contractName = contracts.NameStorageExample.contractName;
-
   const drizzleContracts = yield select(selectors.getContracts);
 
   if (!drizzleContracts) {
@@ -65,11 +76,22 @@ export function* getCallGenerator(action) {
     return;
   }
 
-  const arrayKey = yield call(drizzleContracts
+  let arrayKey = undefined;
+  
+  if (args) {
+    arrayKey = yield call(drizzleContracts
+    [contractName]
+    .methods
+    [methodName]
+    (...args)
+    .cacheCall)
+  } else {
+    arrayKey = yield call(drizzleContracts
     [contractName]
     .methods
     [methodName]
     .cacheCall)
+  }
 
   yield call(subscribeGenerator, {contractName, methodName, key: arrayKey});
 }

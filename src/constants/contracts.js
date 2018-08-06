@@ -2,17 +2,20 @@ export const contracts = {
   NameStorageExample: {
     contractName: "NameStorageExample",
     txMethods: {
-      changeName: "changeName",
-      changeFoo: "changeFoo"
+      changeContractName: "changeContractName",
+      addIndexName: "addIndexName",
+      changeAddressName: "changeAddressName"
     },
     callMethods: {
-      name: "getName",
-      numbers: "getNumbers",
-      foo: "getFoo"
+      contractName: "getContractName",
+      indexName: "getIndexName",
+      arbitraryNames: "getArbitraryNames",
+      addressName: "getAddressName"
     },
     events: {
-      NameChangedEvent: "NameChangedEvent",
-      FooChangedEvent: "FooChangedEvent"
+      ContractNameChanged: "ContractNameChanged",
+      IndexNameAdded: "IndexNameAdded",
+      AddressNameChanged: "AddressNameChanged"
     }
   }
 }

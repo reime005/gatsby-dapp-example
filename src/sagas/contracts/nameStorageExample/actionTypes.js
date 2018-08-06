@@ -1,6 +1,8 @@
 export const INIT = 'INIT';
 export const GET_CALL = 'GET_CALL';
-export const TX_CHANGE_NAME = 'TX_CHANGE_NAME';
+export const TX_CHANGE_ADDRESS_NAME = 'TX_CHANGE_ADDRESS_NAME';
+export const TX_CHANGE_CONTRACT_NAME = 'TX_CHANGE_CONTRACT_NAME';
+export const TX_ADD_INDEX_NAME = 'TX_ADD_INDEX_NAME';
 export const TX_CHANGE_FOO = 'TX_CHANGE_FOO';
 export const SUBSCRIBE = 'SUBSCRIBE';
 export const UNSUBSCRIBE = 'UNSUBSCRIBE';

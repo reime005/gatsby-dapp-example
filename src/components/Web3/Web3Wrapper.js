@@ -1,6 +1,5 @@
 import React from 'react';
-import { SimpleForm, FooForm } from '~/components';
-import { contracts } from '~/constants';
+import { ChangeNameForm } from '~/components';
 
 export class Web3Wrapper extends React.Component {
   state = {
@@ -18,47 +17,27 @@ export class Web3Wrapper extends React.Component {
     })
   }
 
+  componentDidMount() {
+    if (this.props.initialized === true) {
+      this.startSubscribeCalls(
+        [
+          this.props.getContractName, 
+          this.props.getAddressName,
+          this.props.getIndexName(1),
+        ]);
+    }
+  }
+
   componentWillReceiveProps(props) {
     // if drizzle has been initialized
-    const state = props.drizzle.store.getState();
-    console.log(state);
-    
     if (props.initialized === true &&
       props.initialized !== this.props.initialized) {
-      this.startSubscribeCalls([props.getName, props.getNumbers, props.getFoo]);
-
-      let Web3 = require('web3')
-      let web3 = new Web3(new Web3.providers.WebsocketProvider('ws://localhost:8545'))
-
-      const MyContract = require('../../../truffle/build/contracts/NameStorageExample.json');
-
-      const myContract = new web3.eth.Contract(
-        MyContract.abi,
-        "0x50131becc97eeea1acdd154206872957e9317b92",
-        // MyContract.networks[MY_NETWORK_ID].address,
-      )
-
-      myContract.events.allEvents({
-      }, function (error, event) {
-        if (error) console.log(error)
-        console.log(event)
-      })
-
-      // props.drizzle.contracts[contracts.NameStorageExample.contractName]
-      // .events
-      // [contracts.NameStorageExample.events.NameChangedEvent]
-      // ({}, (error, event) => {
-      //   console.log(error, event);
-      // })
-      // .on('data', (event) => {
-      //   console.log(event);
-      // })
-      // .on('changed', (event) => {
-      //   console.log(event);
-      // })
-      // .on('error', (error) => {
-      //   console.log(error);
-      // });
+      this.startSubscribeCalls(
+        [
+          props.getContractName, 
+          props.getAddressName,
+          props.getIndexName(1),
+        ]);
     }
   }
 
@@ -67,11 +46,14 @@ export class Web3Wrapper extends React.Component {
       initialized,
       accounts,
       accountBalances,
-      numbers,
-      changeName,
-      name,
-      changeFoo,
-      foo
+
+      indexName,
+      contractName,
+      addressName,
+
+      changeAddressName,
+      addIndexName,
+      changeContractName,
     } = this.props;
 
     const account = accounts[0];
@@ -94,14 +76,20 @@ export class Web3Wrapper extends React.Component {
       {
         initialized ? 
         <div>
-          <SimpleForm 
-            contractName={name} 
-            numbers={numbers} 
-            changeName={changeName}
+          <ChangeNameForm 
+            text="Contract name: "
+            name={contractName} 
+            txMethod={changeContractName}
           />
-          <FooForm 
-            foo={foo} 
-            changeFoo={changeFoo}
+          <ChangeNameForm 
+            text="Index name: "
+            name={indexName} 
+            txMethod={addIndexName}
+          />
+          <ChangeNameForm 
+            text="Address name: "
+            name={addressName} 
+            txMethod={changeAddressName}
           />
         </div>
         :
