@@ -3,7 +3,11 @@ import { put, select, call, take } from "redux-saga/effects";
 import { eventChannel } from 'redux-saga';
 
 import { drizzleOptions } from "~/constants";
-import { setDrizzleAction, setSubscriptionValueAction } from '~/reducers';
+import { 
+  setDrizzleAction, 
+  setSubscriptionValueAction,
+  setSubscriptionChannelAction
+} from '~/reducers';
 import { contracts } from '~/constants';
 import { txWrapper } from './txWrapper';
 import * as selectors from './selectors';
@@ -78,7 +82,7 @@ export function* getCallGenerator(action) {
 
   let arrayKey = undefined;
   
-  if (index) {
+  if (typeof index !== 'undefined') {
     arrayKey = yield call(drizzleContracts
     [contractName]
     .methods
@@ -111,11 +115,10 @@ function retrieveFromState(state, contractName, methodName, key) {
 }
 
 export function* subscribeGenerator(action) {
-  let {
+  const {
     contractName,
     methodName,
     key,
-    index
   } = action;
 
   let store = yield select(selectors.getStore);
@@ -124,13 +127,23 @@ export function* subscribeGenerator(action) {
     return;
   }
 
-  const channel = yield call(createSubscriptionChannel, store);
+  const valKey = methodName.substring(3).toLowerCase();
+  let channelSubscriptions = yield select(selectors.getChannel);
+  let channel = channelSubscriptions[methodName];
+
+  if (typeof channel !== 'undefined') {
+    channel.close && channel.close();
+  }
+
+  channel = yield call(createSubscriptionChannel, store);
+
+  yield put(setSubscriptionChannelAction(methodName, channel));
 
   while (true) {
     let state = yield call(store.getState);
 
-    const existingValue = yield call(retrieveFromState,
-      state, contractName, methodName, key);
+    const existingValue = yield call(retrieveExistingValue,
+      valKey);
 
     state = yield take(channel);
 
@@ -138,7 +151,6 @@ export function* subscribeGenerator(action) {
       state, contractName, methodName, key);
 
     if (newValue !== existingValue) {
-      const valKey = methodName.substring(3).toLowerCase();
       yield put(
         setSubscriptionValueAction(
           valKey, 
@@ -147,6 +159,11 @@ export function* subscribeGenerator(action) {
       );
     }
   }
+}
+
+function* retrieveExistingValue(valKey) {
+  const reducer = yield select(selectors.getNameStorageExampleReducer);
+  return reducer[valKey];
 }
 
 function createSubscriptionChannel(store) {

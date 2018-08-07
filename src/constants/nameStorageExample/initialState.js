@@ -7,4 +7,6 @@ export const initialState = {
   [contracts.NameStorageExample.callMethods.numbers]: [],
   txError: undefined,
   drizzle: undefined,
+  index: 0,
+  channelSubscriptions: []
 }

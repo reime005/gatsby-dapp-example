@@ -16,7 +16,7 @@ contract NameStorageExample is Ownable {
 
     constructor() public {
         contractName = "NameStorageExample";
-        currentIndex = 0;
+        currentIndex = -1;
     }
 
     function nextIndex() 

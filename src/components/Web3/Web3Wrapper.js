@@ -1,11 +1,13 @@
 import React from 'react';
-import { ChangeNameForm } from '~/components';
+import { 
+  ChangeNameForm,
+  ButtonIndex
+} from '~/components';
 
 export class Web3Wrapper extends React.Component {
   state = {
     nameKey: undefined,
     contractName: "-",
-    watchIndex: 8,
   }
 
   startSubscribeCalls(functions) {
@@ -24,7 +26,7 @@ export class Web3Wrapper extends React.Component {
         [
           this.props.getContractName, 
           this.props.getAddressName,
-          this.props.getIndexName(this.state.watchIndex)
+          this.props.getIndexName(this.props.index)
         ]);
     }
   }
@@ -37,8 +39,12 @@ export class Web3Wrapper extends React.Component {
         [
           props.getContractName, 
           props.getAddressName,
-          props.getIndexName(this.state.watchIndex),
+          props.getIndexName(props.index),
         ]);
+    }
+
+    if (props.index !== this.props.index) {
+      this.props.getIndexName(props.index)
     }
   }
 
@@ -47,10 +53,14 @@ export class Web3Wrapper extends React.Component {
       initialized,
       accounts,
       accountBalances,
+      index,
 
       indexName,
       contractName,
       addressName,
+
+      incrementIndex,
+      decrementIndex,
 
       changeAddressName,
       addIndexName,
@@ -83,14 +93,19 @@ export class Web3Wrapper extends React.Component {
             txMethod={changeContractName}
           />
           <ChangeNameForm 
+            text="Address name: "
+            name={addressName} 
+            txMethod={changeAddressName}
+          />
+          <ChangeNameForm 
             text="Index name: "
             name={indexName} 
             txMethod={addIndexName}
           />
-          <ChangeNameForm 
-            text="Address name: "
-            name={addressName} 
-            txMethod={changeAddressName}
+          <ButtonIndex 
+            index={index}
+            incrementIndex={incrementIndex}
+            decrementIndex={decrementIndex}
           />
         </div>
         :

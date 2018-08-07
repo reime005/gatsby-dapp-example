@@ -7,6 +7,10 @@ import {
   getCallSagaAction,
   initSagaAction
 } from '~/sagas';
+import {
+  incrementIndexAction,
+  decrementIndexAction,
+} from '~/reducers';
 import { Web3Wrapper } from '~/components';
 import { contracts } from '~/constants';
 
@@ -20,16 +24,31 @@ export default connect((state) => ({
   indexName: state.nameStorageExampleReducer[indexName],
   addressName: state.nameStorageExampleReducer[addressName],
   store: state.store,
+  index: state.nameStorageExampleReducer.index,
 }),
 (dispatch) => ({
-  getContractName: () => dispatch(getCallSagaAction(contracts.NameStorageExample.callMethods.contractName)),
-  getAddressName: () => dispatch(getCallSagaAction(contracts.NameStorageExample.callMethods.addressName)),
-  getIndexName: (index) => dispatch(getCallSagaAction(contracts.NameStorageExample.callMethods.indexName, index)),
+  getContractName: () => dispatch(
+    getCallSagaAction(contracts.NameStorageExample.callMethods.contractName)),
+  getAddressName: () => dispatch(
+    getCallSagaAction(contracts.NameStorageExample.callMethods.addressName)),
+  getIndexName: (index) => dispatch(
+    getCallSagaAction(contracts.NameStorageExample.callMethods.indexName, index)),
   
-  changeAddressName: (name) => dispatch(changeAddressNameSagaAction(name)),
-  addIndexName: (name) => dispatch(addIndexNameSagaAction(name)),
-  changeContractName: (name) => dispatch(changeContractNameSagaAction(name)),
-  init: (store) => dispatch(initSagaAction(store)),
+  incrementIndex: () => dispatch(
+    incrementIndexAction()
+  ),
+  decrementIndex: () => dispatch(
+    decrementIndexAction()
+  ),
+
+  changeAddressName: (name) => dispatch(
+    changeAddressNameSagaAction(name)),
+  addIndexName: (name) => dispatch(
+    addIndexNameSagaAction(name)),
+  changeContractName: (name) => dispatch(
+    changeContractNameSagaAction(name)),
+  init: (store) => dispatch(
+    initSagaAction(store)),
 }))(drizzleConnect(
   Web3Wrapper,
   (state) => ({
