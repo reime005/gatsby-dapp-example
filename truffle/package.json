@@ -8,12 +8,29 @@
   },
   "scripts": {
     "dev": "NODE_ENV=development next",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "lint": "standard"
   },
   "author": "",
   "license": "ISC",
+  "standard": {
+    "parser": "babel-eslint",
+    "envs": [
+      "mocha",
+      "browser"
+    ],
+    "globals": [
+      "artifacts",
+      "contract",
+      "assert"
+    ]
+  },
   "devDependencies": {
-    "lite-server": "^2.3.0"
+    "babel-eslint": "^8.2.6",
+    "babel-polyfill": "^6.26.0",
+    "babel-register": "^6.26.0",
+    "lite-server": "^2.3.0",
+    "standard": "^11.0.1"
   },
   "dependencies": {
     "zeppelin-solidity": "^1.10.0"
