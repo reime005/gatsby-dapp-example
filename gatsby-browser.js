@@ -11,25 +11,18 @@ import {
   BaseContainer
 } from '~/containers';
 
-import 'babel-polyfill'
-
-exports.onClientEntry = () => {
-  // Don't need to do anything here, but if you don't 
-  // export something, the import won't work.
-}
-
-exports.replaceRouterComponent = ({ history }) => {
+export const wrapRootComponent = ({ history }) => {
   const store = initStore();
   
   const ConnectedRouterWrapper = ({ children }) => (
     <DrizzleProvider options={drizzleOptions}>
       <Provider store={store}>
         <Router history={history}>
-        <div>
-          <BaseContainer>
-          </BaseContainer>
-            {children}
-        </div>
+          <div>
+            <BaseContainer>
+            </BaseContainer>
+              {children}
+          </div>
         </Router>
       </Provider>
     </DrizzleProvider>

@@ -2,24 +2,27 @@
   "plugins": [
     "babel-plugin-add-module-exports",
     "babel-plugin-transform-object-assign",
-    "transform-regenerator",
-    "transform-runtime"
+    "babel-plugin-transform-regenerator",
+    "babel-plugin-transform-runtime",
+    "@babel/plugin-proposal-object-rest-spread"
   ],
   "presets": [
     [
-      "env",
+      "babel-preset-env",
       {
         "debug": true,
         "loose": true,
-        "uglify": true,
+        "uglify": false,
         "modules": "commonjs",
         "useBuiltIns": true,
+        "objectRestSpread": true,
         "exclude": [
           "transform-es2015-typeof-symbol"
         ]
-      }
-    ],
-    "babel-preset-stage-0",
-    "babel-preset-react"
+      },
+      "babel-preset-stage-1",
+      "babel-preset-stage-2",
+      "babel-preset-stage-3"
+    ]
   ]
 }

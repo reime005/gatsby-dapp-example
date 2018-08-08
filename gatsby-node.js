@@ -29,14 +29,9 @@ exports.modifyBabelrc = ( { babelrc } ) => {
 };
 
 exports.modifyWebpackConfig = ( { config } ) => {
-
     const query = Object.assign( {}, config._loaders.js.config.query, {
         babelrc: false
     } );
-
-    // config.resolve.alias = {
-    //   '~': path.resolve(__dirname, 'src'),
-    // }
 
     config.merge({
       resolve: {
@@ -48,14 +43,14 @@ exports.modifyWebpackConfig = ( { config } ) => {
       }
     });
 
-    config
-        .removeLoader( 'js' )
-        .loader( 'js', {
-            test: /\.jsx?$/,
-            exclude: /node_modules/,
-            loader: 'babel',
-            query
-        } );
+    // config
+    //     .removeLoader( 'js' )
+    //     .loader( 'js', {
+    //         test: /\.jsx?$/,
+    //         exclude: /node_modules/,
+    //         loader: 'babel',
+    //         query
+    //     } );
 
     return config;
 };
