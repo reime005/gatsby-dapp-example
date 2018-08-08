@@ -12,6 +12,10 @@ import { contracts } from '~/constants';
 import { txWrapper } from './txWrapper';
 import * as selectors from './selectors';
 
+/**
+ * Initialize Drizzle and sets it via reducer
+ * @param {object} action.store store for drizzle
+ **/
 export function* initGenerator(action) {
   const {
     store
@@ -30,6 +34,10 @@ export function* initGenerator(action) {
   }
 }
 
+/**
+ * Change contract name transaction method
+ * @param {string} action.name name to be changed
+ **/
 export function* changeContractNameGenerator(action) {
   const {
     name
@@ -41,6 +49,10 @@ export function* changeContractNameGenerator(action) {
   yield call(txWrapper, contractName, methodName, name);
 }
 
+/**
+ * Add index name transaction method
+ * @param {string} action.name name to be added
+ **/
 export function* addIndexNameGenerator(action) {
   const {
     name
@@ -52,6 +64,10 @@ export function* addIndexNameGenerator(action) {
   yield call(txWrapper, contractName, methodName, name);
 }
 
+/**
+ * Change sender's address name transaction method
+ * @param {string} action.name name for the sender's address to be changed
+ **/
 export function* changeAddressNameGenerator(action) {
   const {
     name
@@ -63,6 +79,11 @@ export function* changeAddressNameGenerator(action) {
   yield call(txWrapper, contractName, methodName, name);
 }
 
+/**
+ * Generic call wrapper to start subscribing for value changes
+ * @param {string} action.methodName the contract's name to subscribe for changes
+ * @param {object} action.index the optional method argument
+ **/
 export function* getCallGenerator(action) {
   const {
     methodName,
@@ -100,6 +121,13 @@ export function* getCallGenerator(action) {
   yield call(subscribeGenerator, {contractName, methodName, key: arrayKey, index});
 }
 
+/**
+ * Retrieve value from the smart contract state
+ * @param {object} state the state to look up
+ * @param {string} contractName the desired contract name
+ * @param {string} methodName the desired method name
+ * @param {string} key the key if arguments were passed by cacheCall()
+ **/
 function retrieveFromState(state, contractName, methodName, key) {
   if (state.contracts
     [contractName]
@@ -114,6 +142,12 @@ function retrieveFromState(state, contractName, methodName, key) {
   return undefined;
 }
 
+/**
+ * Watches for subscribed changes and notifies the reducer
+ * @param {string} contractName the desired contract name
+ * @param {string} methodName the desired method name
+ * @param {string} key the key if arguments were passed by cacheCall()
+ **/
 export function* subscribeGenerator(action) {
   const {
     contractName,
@@ -127,33 +161,41 @@ export function* subscribeGenerator(action) {
     return;
   }
 
-  const valKey = methodName.substring(3).toLowerCase();
+  const newKey = methodName.substring(3).toLowerCase();
+
+  //check for existing subscription channel for that method
   let channelSubscriptions = yield select(selectors.getChannel);
   let channel = channelSubscriptions[methodName];
 
+  //close channel if existing
   if (typeof channel !== 'undefined') {
     channel.close && channel.close();
   }
 
+  //open new event channel for subscriptions
   channel = yield call(createSubscriptionChannel, store);
 
+  //set it in the reducer to prevent multiple subscriptions
   yield put(setSubscriptionChannelAction(methodName, channel));
 
   while (true) {
+    //retrieve old state
     let state = yield call(store.getState);
 
     const existingValue = yield call(retrieveExistingValue,
-      valKey);
+      newKey);
 
+    //wait for new state
     state = yield take(channel);
 
     const newValue = yield call(retrieveFromState,
       state, contractName, methodName, key);
 
+    //if watched value has been changed, set in reducer to notify components
     if (newValue !== existingValue) {
       yield put(
         setSubscriptionValueAction(
-          valKey, 
+          newKey, 
           newValue
         )
       );
@@ -161,11 +203,21 @@ export function* subscribeGenerator(action) {
   }
 }
 
+/**
+ * Helper function for retrieving existing value to key from reducer
+ * @param {string} key the key for the desired value to look up
+ * @returns {string} value to key param
+ **/
 function* retrieveExistingValue(valKey) {
   const reducer = yield select(selectors.getNameStorageExampleReducer);
   return reducer[valKey];
 }
 
+/**
+ * Creates Saga event channel for store subscription
+ * @param {object} store desired store to subscribe for changes
+ * @returns {object} saga unsubscribe
+ **/
 function createSubscriptionChannel(store) {
   return eventChannel(emit => {
     return store.subscribe(() => {

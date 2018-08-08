@@ -4,6 +4,10 @@ import {
   ButtonIndex
 } from '~/components';
 
+/**
+ * Basic Component representing Web3 Sub Components
+ * Links the subscribed props to the sub components
+ **/
 export class Web3Wrapper extends React.Component {
   state = {
     nameKey: undefined,

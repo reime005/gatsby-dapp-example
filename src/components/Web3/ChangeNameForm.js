@@ -1,5 +1,8 @@
 import React from 'react';
 
+/**
+ * Component representing form data to display and change
+ **/
 export class ChangeNameForm extends React.Component {
   constructor(props) {
     super(props);

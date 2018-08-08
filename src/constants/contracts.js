@@ -9,7 +9,6 @@ export const contracts = {
     callMethods: {
       contractName: "getContractName",
       indexName: "getIndexName",
-      arbitraryNames: "getArbitraryNames",
       addressName: "getAddressName"
     },
     events: {

@@ -1,6 +1,9 @@
 import { select } from "redux-saga/effects";
 import * as selectors from './selectors';
 
+/**
+ * Wraps a drizzle smart contract transaction
+ **/
 export function* txWrapper(contractName = "NameStorageExample",
 contractMethod = "",
 ...args) {

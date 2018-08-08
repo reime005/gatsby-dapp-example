@@ -5,6 +5,9 @@ import {
   initSagaAction,
 } from '~/sagas';
 
+/**
+ * Component to handle the initialization of Drizzle
+ **/
 class BaseComponent extends React.PureComponent {
   componentDidMount() {
     this.props.init(this.props.store);

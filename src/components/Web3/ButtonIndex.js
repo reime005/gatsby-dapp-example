@@ -1,5 +1,8 @@
 import React from 'react';
 
+/**
+ * Component representing an index for incrementing and decrementing
+ **/
 export class ButtonIndex extends React.Component {
   render() {
     const {
