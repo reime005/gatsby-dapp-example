@@ -1,0 +1,25 @@
+{
+  "plugins": [
+    "babel-plugin-add-module-exports",
+    "babel-plugin-transform-object-assign",
+    "transform-regenerator",
+    "transform-runtime"
+  ],
+  "presets": [
+    [
+      "env",
+      {
+        "debug": true,
+        "loose": true,
+        "uglify": true,
+        "modules": "commonjs",
+        "useBuiltIns": true,
+        "exclude": [
+          "transform-es2015-typeof-symbol"
+        ]
+      }
+    ],
+    "babel-preset-stage-0",
+    "babel-preset-react"
+  ]
+}

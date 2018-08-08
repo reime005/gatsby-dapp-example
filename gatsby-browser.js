@@ -11,6 +11,13 @@ import {
   BaseContainer
 } from '~/containers';
 
+import 'babel-polyfill'
+
+exports.onClientEntry = () => {
+  // Don't need to do anything here, but if you don't 
+  // export something, the import won't work.
+}
+
 exports.replaceRouterComponent = ({ history }) => {
   const store = initStore();
   
