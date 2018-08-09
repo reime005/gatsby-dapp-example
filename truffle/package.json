@@ -28,11 +28,13 @@
   "devDependencies": {
     "babel-eslint": "^8.2.6",
     "babel-polyfill": "^6.26.0",
+    "babel-preset-env": "^1.7.0",
     "babel-register": "^6.26.0",
     "lite-server": "^2.3.0",
     "standard": "^11.0.1"
   },
   "dependencies": {
+    "truffle-hdwallet-provider": "0.0.6",
     "zeppelin-solidity": "^1.10.0"
   }
 }
