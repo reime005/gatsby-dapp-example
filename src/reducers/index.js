@@ -1,7 +1,12 @@
-export * from './contracts';
-
 import { combineReducers } from 'redux';
 import { nameStorageExampleReducer } from './contracts';
-import { drizzleReducers } from 'drizzle';
 
-export const rootReducer = combineReducers({ nameStorageExampleReducer, ...drizzleReducers, });
+
+let drizzleReducers = undefined;
+if (typeof window !== 'undefined') {
+  drizzleReducers = require('drizzle').drizzleReducers;
+}
+
+export const rootReducer = combineReducers({ nameStorageExampleReducer, ...typeof window !== 'undefined' && drizzleReducers });
+
+export * from './contracts';

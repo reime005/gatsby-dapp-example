@@ -71,8 +71,8 @@ export class Web3Wrapper extends React.Component {
       changeContractName,
     } = this.props;
 
-    const account = accounts[0];
-    const balance = accountBalances[account];
+    const account = accounts && accounts[0] || "";
+    const balance = accountBalances && accountBalances[account] || "";
 
     return(
       <div style={{ backgroundColor: '#3164a8', padding: 50, color: 'white'}}>

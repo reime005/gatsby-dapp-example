@@ -1,6 +1,5 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { drizzleConnect } from 'drizzle-react';
 import {
   initSagaAction,
 } from '~/sagas';
@@ -25,9 +24,16 @@ export const BaseContainer = connect((state) => ({
 }),
 (dispatch) => ({
   init: (store) => dispatch(initSagaAction(store)),
-}))(drizzleConnect(
-  BaseComponent,
-  (state) => ({
-  }),
-));
+}))(BaseComponent);
 
+// if (typeof window !== 'undefined') {
+//   // const drizzleConnect = require('drizzle-react').drizzleConnect;
+  
+//   // _BaseContainer = drizzleConnect(
+//   //   _BaseContainer,
+//   //   (state) => ({
+//   //   }),
+//   // )
+// }
+
+// export const BaseContainer = _BaseContainer;

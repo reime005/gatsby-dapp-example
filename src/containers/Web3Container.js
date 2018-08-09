@@ -1,5 +1,5 @@
 import { connect } from 'react-redux';
-import { drizzleConnect } from 'drizzle-react';
+// import { drizzleConnect } from 'drizzle-react';
 import {
   changeAddressNameSagaAction,
   changeContractNameSagaAction,
@@ -47,14 +47,14 @@ export default connect((state) => ({
     addIndexNameSagaAction(name)),
   changeContractName: (name) => dispatch(
     changeContractNameSagaAction(name)),
-  init: (store) => dispatch(
-    initSagaAction(store)),
-}))(drizzleConnect(
-  Web3Wrapper,
-  (state) => ({
-    web: state.web3,
-    accounts: state.accounts,
-    accountBalances: state.accountBalances,
-    initialized: state.drizzleStatus.initialized
-  }),
-));
+}))(Web3Wrapper);
+
+// (drizzleConnect(
+//   Web3Wrapper,
+//   (state) => ({
+//     web: state.web3,
+//     accounts: state.accounts,
+//     accountBalances: state.accountBalances,
+//     initialized: state.drizzleStatus.initialized
+//   }),
+// ));
