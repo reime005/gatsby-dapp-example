@@ -7,8 +7,10 @@ import {
 /**
  * Component to handle the initialization of Drizzle
  **/
-class BaseComponent extends React.PureComponent {
+class BaseWrapper extends React.PureComponent {
   componentDidMount() {
+    console.log(this.props);
+    
     this.props.init(this.props.store);
   }
 
@@ -19,21 +21,22 @@ class BaseComponent extends React.PureComponent {
   }
 }
 
-export const BaseContainer = connect((state) => ({
+let _BaseContainer = BaseWrapper;
+
+if (typeof window !== 'undefined') {
+  const drizzleConnect = require('drizzle-react').drizzleConnect;
+  _BaseContainer = drizzleConnect(
+    _BaseContainer,
+    (state) => ({
+    }),
+  )
+}
+
+_BaseContainer = connect((state) => ({
   store: state.store,
 }),
 (dispatch) => ({
   init: (store) => dispatch(initSagaAction(store)),
-}))(BaseComponent);
+}))(_BaseContainer);
 
-// if (typeof window !== 'undefined') {
-//   // const drizzleConnect = require('drizzle-react').drizzleConnect;
-  
-//   // _BaseContainer = drizzleConnect(
-//   //   _BaseContainer,
-//   //   (state) => ({
-//   //   }),
-//   // )
-// }
-
-// export const BaseContainer = _BaseContainer;
+export const BaseContainer = _BaseContainer;

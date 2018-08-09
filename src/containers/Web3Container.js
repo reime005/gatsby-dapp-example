@@ -1,5 +1,4 @@
 import { connect } from 'react-redux';
-// import { drizzleConnect } from 'drizzle-react';
 import {
   changeAddressNameSagaAction,
   changeContractNameSagaAction,
@@ -18,12 +17,26 @@ const changeContractName = contracts.NameStorageExample.callMethods.contractName
 const indexName = contracts.NameStorageExample.callMethods.indexName.substring(3).toLowerCase();
 const addressName = contracts.NameStorageExample.callMethods.addressName.substring(3).toLowerCase();
 
-export default connect((state) => ({
+let _Web3Container = Web3Wrapper;
+
+if (typeof window !== 'undefined') {
+  const drizzleConnect = require('drizzle-react').drizzleConnect;
+  _Web3Container = drizzleConnect(
+    _Web3Container,
+      (state) => ({
+        web: state.web3,
+        accounts: state.accounts,
+        accountBalances: state.accountBalances,
+        initialized: state.drizzleStatus.initialized
+      }),
+    );
+}
+
+_Web3Container = connect((state) => ({
   drizzle: state.nameStorageExampleReducer.drizzle,
   contractName: state.nameStorageExampleReducer[changeContractName],
   indexName: state.nameStorageExampleReducer[indexName],
   addressName: state.nameStorageExampleReducer[addressName],
-  store: state.store,
   index: state.nameStorageExampleReducer.index,
 }),
 (dispatch) => ({
@@ -47,14 +60,6 @@ export default connect((state) => ({
     addIndexNameSagaAction(name)),
   changeContractName: (name) => dispatch(
     changeContractNameSagaAction(name)),
-}))(Web3Wrapper);
+}))(_Web3Container);
 
-// (drizzleConnect(
-//   Web3Wrapper,
-//   (state) => ({
-//     web: state.web3,
-//     accounts: state.accounts,
-//     accountBalances: state.accountBalances,
-//     initialized: state.drizzleStatus.initialized
-//   }),
-// ));
+export const Web3Container = _Web3Container;

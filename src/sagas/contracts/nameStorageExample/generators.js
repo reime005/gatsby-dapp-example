@@ -1,4 +1,3 @@
-import { Drizzle } from 'drizzle'
 import { put, select, call, take } from "redux-saga/effects";
 import { eventChannel } from 'redux-saga';
 
@@ -26,7 +25,13 @@ export function* initGenerator(action) {
   }
 
   try {
-    const drizzle = new Drizzle(drizzleOptions, store);
+    let drizzle = {};
+    
+    if (typeof window !== 'undefined') {
+      const Drizzle = require('drizzle').Drizzle;
+      drizzle = new Drizzle(drizzleOptions, store);
+    }
+    console.log(drizzle);
     
     yield put(setDrizzleAction(drizzle));
   } catch (e) {

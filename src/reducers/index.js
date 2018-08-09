@@ -7,6 +7,6 @@ if (typeof window !== 'undefined') {
   drizzleReducers = require('drizzle').drizzleReducers;
 }
 
-export const rootReducer = combineReducers({ nameStorageExampleReducer, ...typeof window !== 'undefined' && drizzleReducers });
+export const rootReducer = combineReducers({ nameStorageExampleReducer, ...drizzleReducers && drizzleReducers });
 
 export * from './contracts';

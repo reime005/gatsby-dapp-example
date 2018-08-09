@@ -11,15 +11,11 @@ import {
 
 export const wrapRootComponent = ({ Root }) => {
   const store = initStore();
-  console.log("BaseContainer");
-  console.log(BaseContainer);
   
   if (typeof window === 'undefined') {
     const ConnectedRouterWrapper = () => (
         <Provider store={store}>
             <div>
-              {/* <BaseContainer>
-              </BaseContainer> */}
                 <Root />
             </div>
         </Provider>
@@ -28,19 +24,17 @@ export const wrapRootComponent = ({ Root }) => {
     return ConnectedRouterWrapper;
   } else {
     const DrizzleProvider = require('drizzle-react').DrizzleProvider;
-    console.log("DrizzleProvider");
-    console.log(DrizzleProvider);
     
     const ConnectedRouterWrapper = () => (
-      // <DrizzleProvider options={drizzleOptions}>
+      <DrizzleProvider options={drizzleOptions}>
         <Provider store={store}>
             <div>
-              {/* <BaseContainer>
-              </BaseContainer> */}
+              <BaseContainer>
+              </BaseContainer>
                 <Root />
             </div>
         </Provider>
-      // </DrizzleProvider>
+      </DrizzleProvider>
     );
   
     return ConnectedRouterWrapper;
