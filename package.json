@@ -12,7 +12,8 @@
     "react-helmet": "^5.2.0",
     "react-redux": "^5.0.7",
     "redux": "^4.0.0",
-    "redux-saga": "^0.16.0"
+    "redux-saga": "^0.16.0",
+    "websocket": "^1.0.26"
   },
   "keywords": [
     "gatsby"
