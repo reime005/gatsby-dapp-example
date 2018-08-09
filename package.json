@@ -11,6 +11,7 @@
     "gatsby-plugin-react-helmet": "^3.0.0-beta.4",
     "lodash": "^4.17.10",
     "react": "^16.4.1",
+    "react-dom": "^16.4.1",
     "react-helmet": "^5.2.0",
     "react-redux": "^5.0.7",
     "react-router-dom": "^4.4.0-alpha.1",
