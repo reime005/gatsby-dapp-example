@@ -12,6 +12,7 @@
     "lodash": "^4.17.10",
     "react-helmet": "^5.2.0",
     "react-redux": "^5.0.7",
+    "react-router-dom": "^4.4.0-alpha.1",
     "redux": "^4.0.0",
     "redux-saga": "^0.16.0"
   },
