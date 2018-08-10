@@ -6,17 +6,14 @@ import createSagaMiddleware from 'redux-saga';
 import { drizzleOptions } from 'src/constants';
 import { rootReducer } from 'src/reducers';
 import { rootSaga } from 'src/sagas';
+import { generateContractsInitialState } from 'src/lib/generateContractsInitialState';
 
 export const __DEV__ = process.env.NODE_ENV === "develop";
 
 let initialState = {};
 
-if (typeof window !== 'undefined') {
-  const generateContractsInitialState = require('drizzle').generateContractsInitialState;
-  initialState = {
-    contracts: generateContractsInitialState(drizzleOptions),
-  }
-} else {
+initialState = {
+  contracts: generateContractsInitialState(drizzleOptions),
 }
 
 const sagaMiddleware = createSagaMiddleware();

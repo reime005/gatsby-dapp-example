@@ -28,14 +28,14 @@ export function* initGenerator(action) {
     let drizzle = {};
     
     if (typeof window !== 'undefined') {
-      const Drizzle = require('drizzle').Drizzle;
+      const Drizzle = require('src/lib/Drizzle').default;
       drizzle = new Drizzle(drizzleOptions, store);
     }
     console.log(drizzle);
     
     yield put(setDrizzleAction(drizzle));
   } catch (e) {
-    console.error(`Error in drizzle initialization: ${e.message}`);
+    console.log(`Error in drizzle initialization: ${e.message}`);
   }
 }
 

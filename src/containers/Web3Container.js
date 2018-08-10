@@ -19,20 +19,22 @@ const addressName = contracts.NameStorageExample.callMethods.addressName.substri
 
 let _Web3Container = Web3Wrapper;
 
-if (typeof window !== 'undefined') {
-  const drizzleConnect = require('drizzle-react').drizzleConnect;
-  _Web3Container = drizzleConnect(
-    _Web3Container,
-      (state) => ({
-        web: state.web3,
-        accounts: state.accounts,
-        accountBalances: state.accountBalances,
-        initialized: state.drizzleStatus.initialized
-      }),
-    );
-}
+// if (typeof window !== 'undefined') {
+//   const drizzleConnect = require('drizzle-react').drizzleConnect;
+//   _Web3Container = drizzleConnect(
+//     _Web3Container,
+//       (state) => ({
+//         web: state.web3,
+//         accounts: state.accounts,
+//         accountBalances: state.accountBalances,
+//         initialized: state.drizzleStatus.initialized
+//       }),
+//     );
+// }
 
 _Web3Container = connect((state) => ({
+  ...state,
+  initialized: state.drizzleStatus.initialized,
   drizzle: state.nameStorageExampleReducer.drizzle,
   contractName: state.nameStorageExampleReducer[changeContractName],
   indexName: state.nameStorageExampleReducer[indexName],

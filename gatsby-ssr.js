@@ -2,7 +2,7 @@ import React from 'react'
 import { Provider } from 'react-redux'
 import { renderToString } from 'react-dom/server'
 
-import { initStore } from './src/state/initStore';
+import { initStore } from 'src/state/initStore';
 
 import {
   BaseContainer
@@ -14,7 +14,7 @@ export const replaceRenderer = ({ bodyComponent, replaceBodyHTMLString }) => {
     const ConnectedRouterWrapper = () => (
         <Provider store={store}>
             <div>
-              <BaseContainer>
+              <BaseContainer store={store}>
               </BaseContainer>
               {bodyComponent}
             </div>
