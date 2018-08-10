@@ -6,7 +6,7 @@
   "dependencies": {
     "drizzle": "^1.2.2",
     "drizzle-react": "^1.1.1",
-    "eth-block-tracker": "^4.0.1",
+    "eth-block-tracker-es5": "^2.3.2",
     "gatsby": "^2.0.0-beta.89",
     "gatsby-link": "^2.0.0-beta.17",
     "gatsby-plugin-react-helmet": "^3.0.0-beta.4",

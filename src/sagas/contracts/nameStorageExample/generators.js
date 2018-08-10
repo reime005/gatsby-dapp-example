@@ -107,14 +107,20 @@ export function* getCallGenerator(action) {
   }
 
   let arrayKey = undefined;
+
+  console.log(drizzleContracts
+    [contractName]
+    .methods
+    [methodName]
+    .cacheCall);
   
   if (typeof index !== 'undefined') {
-    arrayKey = yield call(drizzleContracts
+    arrayKey = 0x0;/* yield call(drizzleContracts
     [contractName]
     .methods
     [methodName]
     .cacheCall,
-    index)
+    0x0) */
   } else {
     arrayKey = yield call(drizzleContracts
     [contractName]

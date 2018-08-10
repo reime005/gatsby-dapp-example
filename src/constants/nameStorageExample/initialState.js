@@ -8,6 +8,6 @@ export const initialState = {
   [contracts.NameStorageExample.callMethods.addressName]: "",
   txError: undefined,
   drizzle: undefined,
-  index: 0,
+  index: 0x0,
   channelSubscriptions: []
 }

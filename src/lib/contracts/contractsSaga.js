@@ -183,7 +183,13 @@ function* callCallContractFn({contract, fnName, fnIndex, args, argsHash, sync = 
   }
 
   // Create the transaction object and execute the call.
-  const txObject = yield call(contract.methods[fnName], ...args)
+  // Prevent calling with empty args, which may cause error
+  let txObject = {};
+  if (args.length) {
+    txObject = yield call(contract.methods[fnName], ...args)
+  } else {
+    txObject = yield call(contract.methods[fnName])
+  }
 
   try {
     const callResult = yield call(txObject.call, callArgs)
