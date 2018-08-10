@@ -115,7 +115,7 @@ export class Web3Wrapper extends React.Component {
         :
         <div>
           <p>
-            no contract information
+            no contract information. use the rinkeby testnet
           </p>
         </div>
       }

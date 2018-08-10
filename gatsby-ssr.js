@@ -4,13 +4,34 @@ import { renderToString } from 'react-dom/server'
 
 import { initStore } from './src/state/initStore';
 
-export const replaceRenderer = ({ bodyComponent, replaceBodyHTMLString }) => {
-    const store = initStore()
+import {
+  BaseContainer
+} from '~/containers';
 
-    const ConnectedBody = () => (
+export const replaceRenderer = ({ bodyComponent, replaceBodyHTMLString }) => {
+  const store = initStore();
+  
+    const ConnectedRouterWrapper = () => (
         <Provider store={store}>
-            {bodyComponent}
+            <div>
+              <BaseContainer>
+              </BaseContainer>
+              {bodyComponent}
+            </div>
         </Provider>
-    )
-    replaceBodyHTMLString(renderToString(<ConnectedBody/>))
-}
+    );
+  
+    replaceBodyHTMLString(renderToString(<ConnectedRouterWrapper/>))
+};
+
+
+// export const replaceRenderer = ({ bodyComponent, replaceBodyHTMLString }) => {
+//     const store = initStore()
+
+//     const ConnectedBody = () => (
+//         <Provider store={store}>
+//             {bodyComponent}
+//         </Provider>
+//     )
+//     replaceBodyHTMLString(renderToString(<ConnectedBody/>))
+// }

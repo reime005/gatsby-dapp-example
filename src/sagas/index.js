@@ -11,11 +11,15 @@ function startSagas(...sagas) {
   }
 }
 
-let drizzleSagas = undefined;
+let _rootSaga = undefined;
+
 if (typeof window !== 'undefined') {
-  drizzleSagas = require('drizzle').drizzleSagas;
+  const drizzleSagas = require('drizzle').drizzleSagas;
+  _rootSaga = startSagas(nameStorageSaga, drizzleSagas);
+} else {
+  _rootSaga = startSagas(nameStorageSaga);
 }
 
-export const rootSaga = startSagas(nameStorageSaga, drizzleSagas && drizzleSagas);
+export const rootSaga = _rootSaga;
 
 export * from './contracts';
