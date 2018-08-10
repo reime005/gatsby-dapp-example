@@ -6,7 +6,7 @@ import { initStore } from './src/state/initStore';
 
 import {
   BaseContainer
-} from '~/containers';
+} from 'src/containers';
 
 export const replaceRenderer = ({ bodyComponent, replaceBodyHTMLString }) => {
   const store = initStore();

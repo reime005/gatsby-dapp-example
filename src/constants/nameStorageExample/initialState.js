@@ -1,6 +1,6 @@
 import {
   contracts
-} from '~/constants';
+} from 'src/constants';
 
 export const initialState = {
   [contracts.NameStorageExample.callMethods.contractName]: "",

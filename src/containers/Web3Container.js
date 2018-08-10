@@ -5,13 +5,13 @@ import {
   addIndexNameSagaAction,
   getCallSagaAction,
   initSagaAction
-} from '~/sagas';
+} from 'src/sagas';
 import {
   incrementIndexAction,
   decrementIndexAction,
-} from '~/reducers';
-import { Web3Wrapper } from '~/components';
-import { contracts } from '~/constants';
+} from 'src/reducers';
+import { Web3Wrapper } from 'src/components';
+import { contracts } from 'src/constants';
 
 const changeContractName = contracts.NameStorageExample.callMethods.contractName.substring(3).toLowerCase();
 const indexName = contracts.NameStorageExample.callMethods.indexName.substring(3).toLowerCase();

@@ -1,13 +1,13 @@
 import { put, select, call, take } from "redux-saga/effects";
 import { eventChannel } from 'redux-saga';
 
-import { drizzleOptions } from "~/constants";
+import { drizzleOptions } from "src/constants";
 import { 
   setDrizzleAction, 
   setSubscriptionValueAction,
   setSubscriptionChannelAction
-} from '~/reducers';
-import { contracts } from '~/constants';
+} from 'src/reducers';
+import { contracts } from 'src/constants';
 import { txWrapper } from './txWrapper';
 import * as selectors from './selectors';
 

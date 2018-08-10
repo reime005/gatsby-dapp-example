@@ -1,6 +1,6 @@
 import React from 'react'
 import Link from 'gatsby-link'
-import {Web3Container} from '~/containers/Web3Container'
+import {Web3Container} from 'src/containers/Web3Container'
 
 const IndexPage = (props) => (
   <div>

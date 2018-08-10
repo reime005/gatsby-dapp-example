@@ -2,12 +2,12 @@
 
 import React from 'react';
 import { Provider } from 'react-redux';
-import { initStore } from '~/state';
-import { drizzleOptions } from '~/constants';
+import { initStore } from 'src/state';
+import { drizzleOptions } from 'src/constants';
 
 import {
   BaseContainer
-} from '~/containers';
+} from 'src/containers';
 
 export const wrapRootComponent = ({ Root }) => {
   const store = initStore();

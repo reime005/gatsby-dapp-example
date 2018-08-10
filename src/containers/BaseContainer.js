@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import {
   initSagaAction,
-} from '~/sagas';
+} from 'src/sagas';
 
 /**
  * Component to handle the initialization of Drizzle

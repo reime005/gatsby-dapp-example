@@ -2,7 +2,7 @@ import React from 'react';
 import { 
   ChangeNameForm,
   ButtonIndex
-} from '~/components';
+} from 'src/components';
 
 /**
  * Basic Component representing Web3 Sub Components
