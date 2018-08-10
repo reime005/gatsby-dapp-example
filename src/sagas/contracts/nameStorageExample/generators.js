@@ -115,12 +115,12 @@ export function* getCallGenerator(action) {
     .cacheCall);
   
   if (typeof index !== 'undefined') {
-    arrayKey = 0x0;/* yield call(drizzleContracts
+    arrayKey = yield call(drizzleContracts
     [contractName]
     .methods
     [methodName]
     .cacheCall,
-    0x0) */
+    index.toString()) 
   } else {
     arrayKey = yield call(drizzleContracts
     [contractName]

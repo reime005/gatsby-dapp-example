@@ -141,7 +141,10 @@ function* callSendContractTx({contract, fnName, fnIndex, args, stackId}) {
   const contractName = contract.contractName
 
   // Create the transaction object and execute the tx.
-  const txObject = yield call(contract.methods[fnName], ...args)
+  console.log("sendArgs");
+  console.log(args);
+  
+  const txObject = yield call(contract.methods[fnName], args[0])
   const txChannel = yield call(createTxChannel, {txObject, stackId, sendArgs, contractName})
 
   try {
@@ -185,8 +188,9 @@ function* callCallContractFn({contract, fnName, fnIndex, args, argsHash, sync = 
   // Create the transaction object and execute the call.
   // Prevent calling with empty args, which may cause error
   let txObject = {};
+  
   if (args.length) {
-    txObject = yield call(contract.methods[fnName], ...args)
+    txObject = yield call(contract.methods[fnName], ...Object.values(args))
   } else {
     txObject = yield call(contract.methods[fnName])
   }
