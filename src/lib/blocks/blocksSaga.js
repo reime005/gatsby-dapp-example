@@ -54,18 +54,21 @@ function* callCreateBlockChannel({drizzle, web3, syncAlways}) {
 
 function createBlockPollChannel({drizzle, interval, web3, syncAlways}) {
   return eventChannel(emit => {
+    console.log(web3);
+    
     const blockTracker = new BlockTracker({ provider: web3.currentProvider, pollingInterval: interval})
 
+    console.log(blockTracker);
     blockTracker.on('latest', (block) => {
       emit({type: 'BLOCK_FOUND', block, drizzle, web3, syncAlways})
     })
 
     blockTracker
-    .start()
-    .catch((error) => {
-      emit({type: 'BLOCKS_FAILED', error})
-      emit(END)
-    })
+    ._start();
+    // .catch((error) => {
+    //   emit({type: 'BLOCKS_FAILED', error})
+    //   emit(END)
+    // })
 
     const unsubscribe = () => {
       blockTracker.stop()
