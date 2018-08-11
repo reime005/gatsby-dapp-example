@@ -8,8 +8,9 @@ import {
  * Component to handle the initialization of Drizzle
  **/
 class BaseWrapper extends React.Component {
-  componentDidMount() {
-    this.props.init(this.props.store);
+  constructor(props) {
+    super(props);
+    props.init(props.store)
   }
 
   render() {
@@ -20,15 +21,6 @@ class BaseWrapper extends React.Component {
 }
 
 let _BaseContainer = BaseWrapper;
-
-// if (typeof window !== 'undefined') {
-//   const drizzleConnect = require('drizzle-react').drizzleConnect;
-//   _BaseContainer = drizzleConnect(
-//     _BaseContainer,
-//     (state) => ({
-//     }),
-//   )
-// }
 
 _BaseContainer = connect((state) => ({
   

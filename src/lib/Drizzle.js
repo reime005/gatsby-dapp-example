@@ -1,6 +1,14 @@
 // Load as promise so that async Drizzle initialization can still resolve
 var windowPromise = new Promise((resolve, reject) => {
-  window.addEventListener('load', resolve)
+  if (typeof window === 'undefined') {
+    reject('window is not defined');
+  } else {
+    if (document && document.readyState === 'complete') {
+      resolve();
+    } else {
+      window.addEventListener('load', resolve);
+    }
+  }
 })
 
 class Drizzle {

@@ -36,9 +36,6 @@ export class Web3Wrapper extends React.Component {
   }
 
   componentWillReceiveProps(props) {
-    console.log("props");
-    console.log(props);
-
     // if drizzle has been initialized
     if (props.initialized === true &&
       props.initialized !== this.props.initialized) {

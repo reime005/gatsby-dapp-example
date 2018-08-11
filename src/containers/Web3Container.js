@@ -20,7 +20,8 @@ const addressName = contracts.NameStorageExample.callMethods.addressName.substri
 let _Web3Container = Web3Wrapper;
 
 _Web3Container = connect((state) => ({
-  ...state,
+  accounts: state.accounts,
+  accountBalances: state.accountBalances,
   initialized: state.drizzleStatus.initialized,
   drizzle: state.nameStorageExampleReducer.drizzle,
   contractName: state.nameStorageExampleReducer[changeContractName],
