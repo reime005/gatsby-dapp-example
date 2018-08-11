@@ -54,9 +54,17 @@ export function* instantiateContract({contractArtifact, events, store, web3}) {
 
 function createContractEventChannel({contract, eventName, eventOptions}) {
   const name = contract.contractName
-
+  
   return eventChannel(emit => {
-    const eventListener = contract.events[eventName](eventOptions).on('data', event => {
+    let eventListener = contract.events[eventName]
+    ({...eventOptions}, (error, event) => {
+      if (error) {
+        throw {type: 'EVENT_ERROR', name, error}
+      } else {
+        emit({type: 'EVENT_FIRED', name, event})
+      }
+    })
+    .on('data', event => {
       emit({type: 'EVENT_FIRED', name, event})
     })
     .on('changed', event => {
@@ -64,7 +72,6 @@ function createContractEventChannel({contract, eventName, eventOptions}) {
     })
     .on('error', error => {
       emit({type: 'EVENT_ERROR', name, error})
-      emit(END)
     })
 
     const unsubscribe = () => {
@@ -76,7 +83,14 @@ function createContractEventChannel({contract, eventName, eventOptions}) {
 }
 
 function* callListenForContractEvent({contract, eventName, eventOptions}) {
-  const contractEventChannel = yield call(createContractEventChannel, {contract, eventName, eventOptions})
+  let contractEventChannel = {};
+  
+  try {
+    contractEventChannel = yield call(createContractEventChannel, {contract, eventName, eventOptions})
+  } catch (errorEvent) {
+    yield put(errorEvent)
+    return;
+  }
 
   while (true) {
     var event = yield take(contractEventChannel)

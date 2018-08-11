@@ -31,7 +31,6 @@ export function* initGenerator(action) {
       const Drizzle = require('src/lib/Drizzle').default;
       drizzle = new Drizzle(drizzleOptions, store);
     }
-    console.log(drizzle);
     
     yield put(setDrizzleAction(drizzle));
   } catch (e) {
@@ -107,12 +106,6 @@ export function* getCallGenerator(action) {
   }
 
   let arrayKey = undefined;
-
-  console.log(drizzleContracts
-    [contractName]
-    .methods
-    [methodName]
-    .cacheCall);
   
   if (typeof index !== 'undefined') {
     arrayKey = yield call(drizzleContracts

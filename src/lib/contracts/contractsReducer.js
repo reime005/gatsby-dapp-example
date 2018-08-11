@@ -122,6 +122,15 @@ const contractsReducer = (state = initialState, action) => {
     }
   }
 
+  if (action.type === 'EVENT_ERROR')
+  {
+    console.error(action.error)
+    //TODO: handle event error in reducer
+    return {
+      ...state,
+    }
+  }
+
   return state
 }
 
