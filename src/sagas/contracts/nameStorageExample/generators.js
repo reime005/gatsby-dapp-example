@@ -1,14 +1,13 @@
-import { Drizzle } from 'drizzle'
 import { put, select, call, take } from "redux-saga/effects";
 import { eventChannel } from 'redux-saga';
 
-import { drizzleOptions } from "~/constants";
+import { drizzleOptions } from "src/constants";
 import { 
   setDrizzleAction, 
   setSubscriptionValueAction,
   setSubscriptionChannelAction
-} from '~/reducers';
-import { contracts } from '~/constants';
+} from 'src/reducers';
+import { contracts } from 'src/constants';
 import { txWrapper } from './txWrapper';
 import * as selectors from './selectors';
 
@@ -26,11 +25,16 @@ export function* initGenerator(action) {
   }
 
   try {
-    const drizzle = new Drizzle(drizzleOptions, store);
+    let drizzle = {};
+    
+    if (typeof window !== 'undefined') {
+      const Drizzle = require('src/lib/Drizzle').default;
+      drizzle = new Drizzle(drizzleOptions, store);
+    }
     
     yield put(setDrizzleAction(drizzle));
   } catch (e) {
-    console.error(`Error in drizzle initialization: ${e.message}`);
+    console.log(`Error in drizzle initialization: ${e.message}`);
   }
 }
 
@@ -109,7 +113,7 @@ export function* getCallGenerator(action) {
     .methods
     [methodName]
     .cacheCall,
-    index)
+    index.toString()) 
   } else {
     arrayKey = yield call(drizzleContracts
     [contractName]

@@ -1,16 +1,16 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { drizzleConnect } from 'drizzle-react';
 import {
   initSagaAction,
-} from '~/sagas';
+} from 'src/sagas';
 
 /**
  * Component to handle the initialization of Drizzle
  **/
-class BaseComponent extends React.PureComponent {
-  componentDidMount() {
-    this.props.init(this.props.store);
+class BaseWrapper extends React.Component {
+  constructor(props) {
+    super(props);
+    props.init(props.store)
   }
 
   render() {
@@ -20,14 +20,13 @@ class BaseComponent extends React.PureComponent {
   }
 }
 
-export const BaseContainer = connect((state) => ({
-  store: state.store,
+let _BaseContainer = BaseWrapper;
+
+_BaseContainer = connect((state) => ({
+  
 }),
 (dispatch) => ({
   init: (store) => dispatch(initSagaAction(store)),
-}))(drizzleConnect(
-  BaseComponent,
-  (state) => ({
-  }),
-));
+}))(_BaseContainer);
 
+export const BaseContainer = _BaseContainer;

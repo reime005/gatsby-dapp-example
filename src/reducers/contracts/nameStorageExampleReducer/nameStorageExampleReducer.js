@@ -5,10 +5,11 @@ import {
   INCREMENT_INDEX,
   DECREMENT_INDEX,
 } from './actionTypes';
-import { initialState } from '~/constants/nameStorageExample';
+import { initialState } from 'src/constants/nameStorageExample';
 
 export const nameStorageExampleReducer = (state = initialState, action) => {
   let nextState = state || initialState;
+  console.log(action);
   
   switch (action.type) {
     case SET_DRIZZLE:

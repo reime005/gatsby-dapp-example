@@ -1,10 +1,8 @@
-export * from './contracts';
-
 import {
   nameStorageSaga
 } from './contracts';
 import { fork, all } from 'redux-saga/effects';
-import { drizzleSagas } from 'drizzle';
+import { drizzleSagas } from 'src/lib/rootSaga';
 
 function startSagas(...sagas) {
   return function* rootSaga() {
@@ -14,4 +12,6 @@ function startSagas(...sagas) {
   }
 }
 
-export const rootSaga = startSagas(nameStorageSaga, drizzleSagas);
+export const rootSaga = startSagas(drizzleSagas, nameStorageSaga);
+
+export * from './contracts';

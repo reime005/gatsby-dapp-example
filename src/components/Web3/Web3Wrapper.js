@@ -2,7 +2,7 @@ import React from 'react';
 import { 
   ChangeNameForm,
   ButtonIndex
-} from '~/components';
+} from 'src/components';
 
 /**
  * Basic Component representing Web3 Sub Components
@@ -71,8 +71,8 @@ export class Web3Wrapper extends React.Component {
       changeContractName,
     } = this.props;
 
-    const account = accounts[0];
-    const balance = accountBalances[account];
+    const account = accounts && accounts[0] || "";
+    const balance = accountBalances && accountBalances[account] || "";
 
     return(
       <div style={{ backgroundColor: '#3164a8', padding: 50, color: 'white'}}>
@@ -115,7 +115,7 @@ export class Web3Wrapper extends React.Component {
         :
         <div>
           <p>
-            no contract information
+            no contract information. use the rinkeby testnet
           </p>
         </div>
       }

@@ -1,8 +1,5 @@
-/**
- * Implement Gatsby's Node APIs in this file.
- *
- * See: https://www.gatsbyjs.org/docs/node-apis/
- */
+const fs = require('fs');
+const _ = require('lodash');
 
 require('dotenv').config({
   path: `.env.${process.env.NODE_ENV}`,
@@ -10,18 +7,15 @@ require('dotenv').config({
 
 const path = require('path');
 
-exports.modifyWebpackConfig = ({ config, stage }) => {
-  config.merge({
-    externals: {
-      document: true,
-      discus_config: true,
-    },
+exports.onCreateWebpackConfig = ( { stage, actions } ) => {
+  actions.setWebpackConfig({
     resolve: {
+      modules: [path.resolve(__dirname, 'src'), "node_modules"],
       alias: {
-        '~': path.resolve(__dirname, 'src'),
-      },
-    },
-  });
-
-  return config;
+        'src': path.resolve(__dirname, 'src'),
+        'scrypt.js': path.resolve(__dirname, 'node_modules/scrypt.js/js.js'),
+        'swarm-js': path.resolve(__dirname, 'node_modules/swarm-js/lib/api-browser.js'),
+      }
+    }
+  })
 };

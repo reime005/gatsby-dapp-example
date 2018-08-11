@@ -1,32 +1,25 @@
 /* globals window */
 
 import React from 'react';
-import { Router } from 'react-router-dom';
 import { Provider } from 'react-redux';
-import { DrizzleProvider } from 'drizzle-react';
-import { initStore } from '~/state';
-import { drizzleOptions } from '~/constants';
+import { initStore } from 'src/state/initStore';
 
 import {
   BaseContainer
-} from '~/containers';
+} from 'src/containers';
 
-exports.replaceRouterComponent = ({ history }) => {
+export const wrapRootComponent = ({ Root }) => {
   const store = initStore();
   
-  const ConnectedRouterWrapper = ({ children }) => (
-    <DrizzleProvider options={drizzleOptions}>
-      <Provider store={store}>
-        <Router history={history}>
-        <div>
-          <BaseContainer>
-          </BaseContainer>
-            {children}
-        </div>
-        </Router>
-      </Provider>
-    </DrizzleProvider>
-  );
-
+    const ConnectedRouterWrapper = () => (
+        <Provider store={store}>
+            <div>
+              <BaseContainer store={store}>
+              </BaseContainer>
+              <Root />
+            </div>
+        </Provider>
+    );
+  
   return ConnectedRouterWrapper;
-};
+}

@@ -3,14 +3,16 @@
 
 import { createStore, compose, applyMiddleware } from 'redux';
 import createSagaMiddleware from 'redux-saga';
-import { generateContractsInitialState } from 'drizzle';
-import { drizzleOptions } from '~/constants';
-import { rootReducer } from '~/reducers';
-import { rootSaga } from '~/sagas';
+import { drizzleOptions } from 'src/constants';
+import { rootReducer } from 'src/reducers';
+import { rootSaga } from 'src/sagas';
+import { generateContractsInitialState } from 'src/lib/generateContractsInitialState';
 
 export const __DEV__ = process.env.NODE_ENV === "develop";
 
-const initialState = {
+let initialState = {};
+
+initialState = {
   contracts: generateContractsInitialState(drizzleOptions),
 }
 
