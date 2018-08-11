@@ -72,6 +72,7 @@ function createContractEventChannel({contract, eventName, eventOptions}) {
     })
     .on('error', error => {
       emit({type: 'EVENT_ERROR', name, error})
+      emit(END)
     })
 
     const unsubscribe = () => {
