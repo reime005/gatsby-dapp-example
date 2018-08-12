@@ -1,8 +1,8 @@
 require('babel-register');
 require('babel-polyfill');
 var HDWalletProvider = require("truffle-hdwallet-provider");
-var infura_apikey = "...";
-var mnemonic = "...";
+var infura_apikey = "....";
+var mnemonic = "....";
 
 
 module.exports = {

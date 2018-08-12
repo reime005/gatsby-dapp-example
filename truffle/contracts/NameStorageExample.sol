@@ -1,4 +1,4 @@
-pragma solidity ^0.4.23;
+pragma solidity ^0.4.24;
 
 import "zeppelin-solidity/contracts/ownership/Ownable.sol";
 
@@ -7,12 +7,12 @@ import "zeppelin-solidity/contracts/ownership/Ownable.sol";
 /// @notice 
 /// @dev This is the core contract
 contract NameStorageExample is Ownable {
-    string internal contractName;
+    string public contractName;
 
-    mapping (uint => string) indexNames;
-    uint internal currentIndex;
+    mapping (uint => string) public indexNames;
+    uint public currentIndex;
 
-    mapping (address => string) addressNames;
+    mapping (address => string) public addressNames;
 
     event ContractNameChanged(string previousContractName, string newContractName);
     event IndexNameAdded(address changer, uint index, string name);
@@ -32,7 +32,7 @@ contract NameStorageExample is Ownable {
     /// @notice Returns index and then increments it
     /// @return Name Index counter before incrementing
     function nextIndex() 
-        internal
+        private
         returns(uint) {
         return currentIndex++;
     }
@@ -65,29 +65,12 @@ contract NameStorageExample is Ownable {
         indexNames[index] = name;
     }
 
-    /// @notice Retrieves the name at an index
-    /// @param index The index to retrieve the name from
-    /// @return string at the specified position
-    function getIndexName(
-        uint index
-    ) external view 
-        returns(string) {
-        return indexNames[index];
-    }
-
     /// @notice Retrieves the name for the sender's address
+    /// @dev Note that addressNames is public, so there is already a getter
     /// @return name string at sender's address 
     function getAddressName() 
         external view
         returns(string) {
         return addressNames[msg.sender];
-    }
-
-    /// @notice Retrieves the contract name
-    /// @return contract name string
-    function getContractName() 
-        external view
-        returns(string) {
-        return contractName;
     }
 }

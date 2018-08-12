@@ -16,7 +16,7 @@ const fromAccount = (accounts, i) => {
 contract('NameStorageExample', async (accounts) => {
   it('should have the correct initial state', async function() {
     const instance = await NameStorageExample.deployed();
-    const contractName = await instance.getContractName.call();
+    const contractName = await instance.contractName();
     await assert.equal(contractName, 
       CONTRACT_NAME, "not equal");
   });
@@ -34,7 +34,7 @@ contract('NameStorageExample', async (accounts) => {
 
     // let the owner change the name
     const tx1 = await instance.changeContractName(CONTRACT_NAME_TO_CHANGE);
-    const contractNameAfter = await instance.getContractName.call();
+    const contractNameAfter = await instance.contractName();
 
     await assert.equal(contractNameAfter, 
       CONTRACT_NAME_TO_CHANGE, "not equal");
@@ -49,10 +49,8 @@ contract('NameStorageExample', async (accounts) => {
       fromAccount(accounts, 1));
 
     // check if the name related to the address has been changed
-    const personalNameAccount0 = await instance.getAddressName.call(
-      fromAccount(accounts, 0));
-    const personalNameAccount1 = await instance.getAddressName.call(
-      fromAccount(accounts, 1));
+    const personalNameAccount0 = await instance.addressNames(accounts[0])
+    const personalNameAccount1 = await instance.addressNames(accounts[1])
 
     assert.strictEqual(ADDRESS_NAME_TO_CHANGE_0, personalNameAccount0, 
       "personal name did not change");
@@ -61,7 +59,7 @@ contract('NameStorageExample', async (accounts) => {
   });
   it('should allow incrementing the global name mapping', async function() {
     const instance = await NameStorageExample.deployed();
-    const MAX = 42;
+    const MAX = 4;
     const PREFIX = "name_";
 
     // add random number names
@@ -71,7 +69,7 @@ contract('NameStorageExample', async (accounts) => {
 
     // check if they are correctly created
     for (let i = 0; i < MAX; i++) {
-      const name = await instance.getIndexName.call(i);
+      const name = await instance.indexNames(i);
       await assert.strictEqual(PREFIX + i, name, "index name do not equal");
     }
   });

@@ -13,9 +13,9 @@ import {
 import { Web3Wrapper } from 'src/components';
 import { contracts } from 'src/constants';
 
-const changeContractName = contracts.NameStorageExample.callMethods.contractName.substring(3).toLowerCase();
-const indexName = contracts.NameStorageExample.callMethods.indexName.substring(3).toLowerCase();
-const addressName = contracts.NameStorageExample.callMethods.addressName.substring(3).toLowerCase();
+const contractName = contracts.NameStorageExample.callMethods.contractName;
+const indexName = contracts.NameStorageExample.callMethods.indexName;
+const addressName = contracts.NameStorageExample.callMethods.addressName;
 
 let _Web3Container = Web3Wrapper;
 
@@ -24,7 +24,7 @@ _Web3Container = connect((state) => ({
   accountBalances: state.accountBalances,
   initialized: state.drizzleStatus.initialized,
   drizzle: state.nameStorageExampleReducer.drizzle,
-  contractName: state.nameStorageExampleReducer[changeContractName],
+  contractName: state.nameStorageExampleReducer[contractName],
   indexName: state.nameStorageExampleReducer[indexName],
   addressName: state.nameStorageExampleReducer[addressName],
   index: state.nameStorageExampleReducer.index,
@@ -32,8 +32,8 @@ _Web3Container = connect((state) => ({
 (dispatch) => ({
   getContractName: () => dispatch(
     getCallSagaAction(contracts.NameStorageExample.callMethods.contractName)),
-  getAddressName: () => dispatch(
-    getCallSagaAction(contracts.NameStorageExample.callMethods.addressName)),
+  getAddressName: (address) => dispatch(
+    getCallSagaAction(contracts.NameStorageExample.callMethods.addressName, address)),
   getIndexName: (index) => dispatch(
     getCallSagaAction(contracts.NameStorageExample.callMethods.indexName, index)),
   

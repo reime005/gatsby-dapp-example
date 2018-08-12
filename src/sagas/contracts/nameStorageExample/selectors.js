@@ -5,3 +5,4 @@ export const getStore = (state) => state.nameStorageExampleReducer.drizzle ?
 export const getDrizzle = (state) => state.nameStorageExampleReducer.drizzle;
 export const getChannel = (state) => state.nameStorageExampleReducer.channelSubscriptions;
 export const getNameStorageExampleReducer = (state) => state.nameStorageExampleReducer;
+export const getAccounts = (state) => state.accounts;

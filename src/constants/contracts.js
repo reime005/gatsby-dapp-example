@@ -7,9 +7,9 @@ export const contracts = {
       changeAddressName: "changeAddressName"
     },
     callMethods: {
-      contractName: "getContractName",
-      indexName: "getIndexName",
-      addressName: "getAddressName"
+      contractName: "contractName",
+      indexName: "indexNames",
+      addressName: "addressNames"
     },
     events: {
       ContractNameChanged: "ContractNameChanged",

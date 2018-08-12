@@ -29,8 +29,8 @@ export class Web3Wrapper extends React.Component {
       this.startSubscribeCalls(
         [
           this.props.getContractName, 
-          this.props.getAddressName,
-          this.props.getIndexName(this.props.index)
+          this.props.getAddressName(this.props.accounts[0]),
+          this.props.getIndexName(this.props.index.toString())
         ]);
     }
   }
@@ -42,8 +42,8 @@ export class Web3Wrapper extends React.Component {
       this.startSubscribeCalls(
         [
           props.getContractName, 
-          props.getAddressName,
-          props.getIndexName(props.index),
+          props.getAddressName(props.accounts[0]),
+          props.getIndexName(props.index.toString()),
         ]);
     }
 

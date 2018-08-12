@@ -47,10 +47,11 @@ export function* changeContractNameGenerator(action) {
     name
   } = action;
 
+  const from = yield call(getFrom);
   const contractName = contracts.NameStorageExample.contractName;
   const methodName = contracts.NameStorageExample.txMethods.changeContractName;
 
-  yield call(txWrapper, contractName, methodName, name);
+  yield call(txWrapper, contractName, methodName, name, from);
 }
 
 /**
@@ -62,10 +63,11 @@ export function* addIndexNameGenerator(action) {
     name
   } = action;
 
+  const from = yield call(getFrom);
   const contractName = contracts.NameStorageExample.contractName;
   const methodName = contracts.NameStorageExample.txMethods.addIndexName;
 
-  yield call(txWrapper, contractName, methodName, name);
+  yield call(txWrapper, contractName, methodName, name, from);
 }
 
 /**
@@ -77,10 +79,24 @@ export function* changeAddressNameGenerator(action) {
     name
   } = action;
 
+  const from = yield call(getFrom);
   const contractName = contracts.NameStorageExample.contractName;
   const methodName = contracts.NameStorageExample.txMethods.changeAddressName;
 
-  yield call(txWrapper, contractName, methodName, name);
+  yield call(txWrapper, contractName, methodName, name, from);
+}
+
+function* getFrom() {
+  const accounts = yield select(selectors.getAccounts);
+  if (accounts) {
+    return {
+      from: accounts[0]
+    }
+  } else {
+    return {
+      from: "0x0"
+    }
+  }
 }
 
 /**
@@ -91,7 +107,7 @@ export function* changeAddressNameGenerator(action) {
 export function* getCallGenerator(action) {
   const {
     methodName,
-    index
+    args
   } = action;
 
   const contractName = contracts.NameStorageExample.contractName;
@@ -106,14 +122,21 @@ export function* getCallGenerator(action) {
   }
 
   let arrayKey = undefined;
+
+  // stop/return if any of the arguments passed are 'undefined'
+  for (let argKey in args) {
+    if (typeof args[argKey] === 'undefined') {
+      return;
+    }
+  }
   
-  if (typeof index !== 'undefined') {
+  if (args.length) {
     arrayKey = yield call(drizzleContracts
     [contractName]
     .methods
     [methodName]
     .cacheCall,
-    index.toString()) 
+    ...args) 
   } else {
     arrayKey = yield call(drizzleContracts
     [contractName]
@@ -122,7 +145,7 @@ export function* getCallGenerator(action) {
     .cacheCall)
   }
 
-  yield call(subscribeGenerator, {contractName, methodName, key: arrayKey, index});
+  yield call(subscribeGenerator, {contractName, methodName, key: arrayKey});
 }
 
 /**
@@ -165,7 +188,7 @@ export function* subscribeGenerator(action) {
     return;
   }
 
-  const newKey = methodName.substring(3).toLowerCase();
+  const newKey = methodName;
 
   //check for existing subscription channel for that method
   let channelSubscriptions = yield select(selectors.getChannel);

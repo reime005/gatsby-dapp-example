@@ -7,11 +7,11 @@ export function initSagaAction(store) {
   }
 }
 
-export function getCallSagaAction(methodName, index) {
+export function getCallSagaAction(methodName, ...args) {
   return {
     type: types.GET_CALL,
     methodName,
-    index 
+    args: args 
   }
 }
 
